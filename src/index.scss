@@ -1,0 +1,17 @@
+@import "bootstrap/scss/bootstrap";
+@import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+@import "./assets//scss/scss/index.scss";
+
+:root {
+    --bs-primary-rgb: 0, 98, 204;
+    --bs-secondary-rgb: 237, 28, 36;
+}
+
+.notes{
+    p{
+        margin-bottom: 0;
+    }
+}

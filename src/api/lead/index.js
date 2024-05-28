@@ -1,0 +1,77 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-async-promise-executor */
+import {
+  //   setDoc,
+  //   doc,
+  addDoc,
+  getFirestore,
+  collection,
+  getDocs,
+  query
+} from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+// import { isAuthenticated, jwtDecodeDetails } from 'services/utilities';
+import { DB_NAME } from 'services/constants';
+import { Toast } from 'services/toast';
+
+export const createLead = (body) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      //   if (isAuthenticated()) {
+      const userReq = {
+        ...body,
+        createdBy: {
+          name: `Anvesh babu`,
+          userId: '001',
+          date: new Date().toISOString()
+        }
+      };
+
+      //   let {
+      //     user_id,
+      //     userObj: { first_name, last_name }
+      //   } = jwtDecodeDetails();
+      const docRef = await addDoc(
+        collection(getFirestore(), DB_NAME?.LEAD),
+        userReq
+      );
+      resolve(docRef);
+      Toast({ message: 'Lead Add successfully' });
+    } catch (e) {
+      // eslint-disable-next-line no-undef
+      const message = error?.message || 'Something went wrong';
+      Toast({ message, type: 'error' });
+      reject(e);
+      console.error('Error adding document: ', e);
+    }
+  });
+};
+
+export const getAllLead = () => {
+  getAuth();
+  //   const user = auth.currentUser;
+  return new Promise(async (resolve, reject) => {
+    try {
+      //   if (isAuthenticated()) {
+      // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
+
+      const querySnapshot = await getDocs(
+        query(collection(getFirestore(), DB_NAME?.LEAD))
+      );
+      const data = [];
+      querySnapshot.forEach((leadDoc) => {
+        // doc.data() is never undefined for query doc snapshots
+        data.push({ ...leadDoc.data(), id: leadDoc.id });
+      });
+      resolve(data);
+      //   } else {
+      //   }
+    } catch (e) {
+      // eslint-disable-next-line no-undef
+      const message = error?.message || 'Something went wrong';
+      Toast({ message, type: 'error' });
+      reject(e);
+      console.error('Error adding document: ', e);
+    }
+  });
+};

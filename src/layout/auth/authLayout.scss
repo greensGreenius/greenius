@@ -1,0 +1,39 @@
+.auth_Layout {
+    background-color: #fff;
+    background-image: url("../../assets/img/login_bg.png");
+    min-height: 100vh;
+    background-size: 116%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    position: -webkit-sticky;
+    position: sticky;
+    .total_height {
+        display: grid;
+        min-height: 100vh;
+        grid-template-rows: auto 1fr auto;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        background-repeat: no-repeat;
+        .brand_logo {
+            margin-left: 44px;
+            margin-top: 44px;
+        }
+        .brand-name-logo {
+            width: 350px;
+            height: 85px;
+        }
+        .brand_name {
+            width: 350px;
+            height: 85px;
+        }
+        .font-regular-29 {
+            font-size: 29px;
+        }
+        .login_page {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 4%;
+            margin-left: 25px;
+        }
+    }
+}

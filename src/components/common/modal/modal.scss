@@ -1,0 +1,15 @@
+.app-modal{
+    .modal-header{
+        display: flex;
+        justify-content: space-between;
+        padding:1rem 32px 24px ;
+        border-bottom: 1px solid #e9ecef;
+        border-top-left-radius: 0.3rem;
+        border-top-right-radius: 0.3rem;
+    }
+    .modal-body{
+        padding:1rem 32px 24px ;
+        height:calc(100% - 81px);
+        overflow-y: auto;
+    }
+}

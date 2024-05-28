@@ -1,0 +1,54 @@
+@import "./abstracts/abstracts-dir.scss";
+@import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+@import './custom/button.scss';
+
+// @import "../fonts/San-Francisco-Pro-Fonts/index.css";
+//
+:button:input:check-box:search-box:cursor:container:sidebar:modal:alert //
+
+html {
+  overflow-x: hidden;
+}
+
+
+.modal {
+  .modal-right {
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+    margin: 0;
+    top: 0;
+    right: 0;
+    max-width: 654px;
+
+    .modal-content {
+      min-height: 100vh;
+    }
+  }
+}
+
+.swal2-container{
+  z-index: 99999;
+}
+
+
+.btn-secondary  {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #374151;
+
+}
+
+.small-search-input{
+  .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
+    top: -5px;
+  }
+}
+.css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input{
+  &::placeholder{
+    color: red;
+  }
+}
