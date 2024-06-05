@@ -75,7 +75,7 @@ export const LEAD_TYPE_LIST = [
   },
   {
     label: 'Branch Admin',
-    value: LEAD_TYPE.ADMIN
+    value: LEAD_TYPE.BRANCH_ADMIN
   },
   {
     label: 'Instagram',
@@ -91,5 +91,20 @@ export const DEMO_STATUS_LIST = [
   {
     label: 'NO',
     value: SETTLEMENT_TYPE.NO
+  }
+];
+
+export const BRANCH_LIST = [
+  {
+    label: 'T.Nagar',
+    value: 1
+  },
+  {
+    label: 'Perumbakkam',
+    value: 2
+  },
+  {
+    label: 'Avadi',
+    value: 2
   }
 ];

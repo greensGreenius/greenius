@@ -2,7 +2,7 @@ export const leadSchemaModule = {
   name: '',
   phone: '',
   email: '',
-  status: 0,
+  leadstatus: 0,
   leadFrom: '',
   leadType: 0,
   totfees: 0,
@@ -10,11 +10,13 @@ export const leadSchemaModule = {
   demoBy: '',
   demoStatus: '',
   courses: [],
+  branch: '',
   comments: [
     {
       userId: '',
       notes: '',
       date: new Date()
     }
-  ]
+  ],
+  updatedBy: []
 };

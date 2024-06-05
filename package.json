@@ -25,6 +25,7 @@
     "react-toastify": "^10.0.5",
     "sass": "^1.64.2",
     "simple-react-validator": "^1.6.2",
+    "sweetalert2": "^11.11.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

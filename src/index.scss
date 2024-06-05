@@ -1,17 +1,149 @@
 @import "bootstrap/scss/bootstrap";
-@import '@fontsource/roboto/300.css';
-@import '@fontsource/roboto/400.css';
-@import '@fontsource/roboto/500.css';
-@import '@fontsource/roboto/700.css';
+@import "@fontsource/roboto/300.css";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/500.css";
+@import "@fontsource/roboto/700.css";
 @import "./assets//scss/scss/index.scss";
-
+// @import url("https://prium.github.io/phoenix/v1.17.0/assets/css/theme.min.css");
 :root {
-    --bs-primary-rgb: 0, 98, 204;
+    --bs-primary: #033631;
     --bs-secondary-rgb: 237, 28, 36;
+    --bs-nav-pills-link-active-bg: red;
+    --primary-gradient: linear-gradient(to left, rgb(16, 61, 51), rgb(92, 99, 55), rgb(164, 135, 61));
 }
 
-.notes{
-    p{
+.notes {
+    p {
         margin-bottom: 0;
     }
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background: var(--primary-gradient);
+}
+.bg-primary {
+    background-color: var(--bs-primary) !important;
+}
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    color: var(--bs-primary) !important;
+}
+.css-1aquho2-MuiTabs-indicator {
+    background: var(--primary-gradient) !important;
+}
+
+.badge-success {
+    background-color: #d9fbd0;
+    color: #1c6c09;
+    border-color: #90d67f;
+}
+.badge {
+    text-transform: uppercase;
+    padding: 2px 8px;
+    // background-color: var(--phoenix-badge-bg);
+    // color: var(--phoenix-badge-color);
+    border: 1px solid #90d67f;
+}
+
+.fs-1 {
+    font-size: 4.768371582rem !important;
+}
+
+.fs-2 {
+    font-size: 3.8146972656rem !important;
+}
+
+.fs-3 {
+    font-size: 3.0517578125rem !important;
+}
+
+.fs-4 {
+    font-size: 2.44140625rem !important;
+}
+
+.fs-5 {
+    font-size: 1.953125rem !important;
+}
+
+.fs-6 {
+    font-size: 1.5625rem !important;
+}
+
+.fs-7 {
+    font-size: 1.25rem !important;
+}
+
+.fs-8 {
+    font-size: 1rem !important;
+}
+
+.fs-9 {
+    font-size: 0.8rem !important;
+}
+
+.fs-10 {
+    font-size: 0.64rem !important;
+}
+
+.fs-11 {
+    font-size: 0.512rem !important;
+}
+
+.fst-italic {
+    font-style: italic !important;
+}
+
+.fst-normal {
+    font-style: normal !important;
+}
+
+.fw-thin {
+    font-weight: 100 !important;
+}
+
+.fw-lighter {
+    font-weight: 200 !important;
+}
+
+.fw-light {
+    font-weight: 300 !important;
+}
+
+.fw-normal {
+    font-weight: 400 !important;
+}
+
+.fw-medium {
+    font-weight: 500 !important;
+}
+
+.fw-semibold {
+    font-weight: 600 !important;
+}
+
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+.fw-bolder {
+    font-weight: 800 !important;
+}
+
+.fw-black {
+    font-weight: 900 !important;
+}
+
+.lh-1 {
+    line-height: 1 !important;
+}
+
+.lh-sm {
+    line-height: 1.2 !important;
+}
+
+.lh-base {
+    line-height: 1.49 !important;
+}
+
+.lh-lg {
+    line-height: 1.4 !important;
 }

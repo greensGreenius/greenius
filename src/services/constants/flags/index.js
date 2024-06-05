@@ -47,5 +47,6 @@ export const LEAD_TYPE = {
   BRANCH: 0,
   ADMIN: 1,
   TRAINER: 2,
-  INSTAGRAM: 3
+  INSTAGRAM: 3,
+  BRANCH_ADMIN: 4
 };

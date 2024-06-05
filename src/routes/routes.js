@@ -75,6 +75,34 @@ const routers = [
         exact: true
       }
     ]
+  },
+  {
+    component: 'Adminlayout',
+    path: '/batch',
+    auth: false,
+    exact: false,
+    childrens: [
+      {
+        component: 'BatchPage',
+        path: '',
+        auth: false,
+        exact: true
+      }
+    ]
+  },
+  {
+    component: 'Adminlayout',
+    path: '/candidate',
+    auth: false,
+    exact: false,
+    childrens: [
+      {
+        component: 'CandidatePage',
+        path: '',
+        auth: false,
+        exact: true
+      }
+    ]
   }
 
   //   dev layout

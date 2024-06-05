@@ -1,77 +1,206 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/no-danger */
 /* eslint-disable no-undef */
-import { NormalTable } from 'components/common';
+// import { NormalTable } from 'components/common';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react';
 import { getAllLead } from 'api/lead';
-import { getJoinStatus } from 'services/helperFunctions';
+import {
+  getJoinAndLeadStatus,
+  getYesNotStatus,
+  getIdByLabel,
+  getLeadType,
+  multySearchObjects,
+  getCoursebyIdLabel
+} from 'services/helperFunctions';
 import moment from 'moment';
+import './leadList.scss';
 
-export const LeadList = () => {
+export const LeadList = ({
+  onEdit = () => {},
+  leadFromList = [],
+  leadstatus = null,
+  filterObject = '',
+  courseList = []
+}) => {
   const [leadList, setLeadList] = useState([]);
-  const candidateHeader = [
-    {
-      lable: 'S.no'
-    },
-    {
-      lable: 'Name'
-    },
-    {
-      lable: 'Phone'
-    },
-    {
-      lable: 'Email'
-    },
+  const [isLoading, setLoading] = useState(false);
+  // const candidateHeader = [
+  //   {
+  //     lable: 'S.no'
+  //   },
+  //   {
+  //     lable: 'Name'
+  //   },
+  //   {
+  //     lable: 'Phone'
+  //   },
+  //   {
+  //     lable: 'Email'
+  //   },
 
-    {
-      lable: 'Status'
-    },
-    {
-      lable: 'Comment'
-    },
-    {
-      lable: 'Next Follow up'
-    },
-    {
-      lable: 'Action'
-    }
-  ];
+  //   {
+  //     lable: 'Status'
+  //   },
+  //   {
+  //     lable: 'Comment'
+  //   },
+  //   {
+  //     lable: 'Next Follow up'
+  //   },
+  //   {
+  //     lable: 'Action'
+  //   }
+  // ];
 
   const handleGetCourseList = async () => {
-    const leadResList = await getAllLead();
-    setLeadList(leadResList);
+    try {
+      setLeadList([]);
+      setLoading(true);
+      const leadResList = await getAllLead(leadstatus);
+      setLeadList(leadResList);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     handleGetCourseList();
-  }, []);
+  }, [leadstatus]);
 
+  const handleRenderCouseView = (courses = []) => {
+    const data = getCoursebyIdLabel(courseList, courses);
+    const firstCourse = data[0];
+    const remainingCount = courses.length - 1;
+    console.log(!firstCourse, '-------', data);
+
+    if (!firstCourse) {
+      return null; // Handle empty courses array
+    }
+
+    return (
+      <>
+        <span key={firstCourse.value}>{firstCourse.label}</span>
+        {remainingCount > 0 && (
+          <span className="ms-1 text-primary">+{remainingCount}</span>
+        )}
+      </>
+    );
+  };
   return (
     <div className="row mt-2">
-      <div className="col-12">
-        <NormalTable
-          rowData={leadList}
-          columnData={candidateHeader}
-          renderItem={(data, i) => (
-            <tr key={i}>
-              <td>{i + 1}</td>
-              <td>{data.name}</td>
-              <td>{data.phone}</td>
-              <td>{data.email}</td>
-              <td>{getJoinStatus(data.status)}</td>
-              <td>
-                {data.comments.map(({ notes }) => (
-                  <span
-                    className="notes"
-                    dangerouslySetInnerHTML={{ __html: notes }}
-                  />
-                ))}
-              </td>
-              <td>{moment(data.nextFollUp).format('DD MMM YYYY')}</td>
-              <td />
-            </tr>
-          )}
-        />
-      </div>
+      {isLoading && leadList.length === 0 ? (
+        <h4>Loading...</h4>
+      ) : (
+        leadList.length === 0 ||
+        (multySearchObjects(leadList, filterObject).length === 0 && (
+          <h4>No Data Found...</h4>
+        ))
+      )}
+      {!isLoading &&
+        multySearchObjects(leadList, filterObject).map((lead) => (
+          <div className="col-12">
+            <div className="card lead-card">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-12">
+                    <span className="badge float-end rounded-pill text-bg-primary">
+                      {getJoinAndLeadStatus(lead?.leadstatus)}
+                    </span>
+                    <h4>
+                      {lead?.name}{' '}
+                      <IconButton color="success" onClick={() => onEdit(lead)}>
+                        <EditIcon />
+                      </IconButton>
+                      {/* <IconButton color="success">
+                      <EditIcon />
+                    </IconButton> */}
+                    </h4>
+                    {/* <span>{lead?.branch}</span> */}
+                  </div>
+                  <div className="col-12">
+                    <div className="row">
+                      <div className="col-md-4">
+                        <table className="table table-sm table-borderless">
+                          <tbody>
+                            <tr>
+                              <td>Phone</td>
+                              <td>{lead?.phone}</td>
+                            </tr>
+                            <tr>
+                              <td>Email</td>
+                              <td>{lead?.email}</td>
+                            </tr>
+                            <tr>
+                              <td>Course</td>
+                              <td>{handleRenderCouseView(lead.courses)}</td>
+                            </tr>
+                            <tr>
+                              <td>Next Follow up</td>
+                              <td>
+                                {moment(lead.nextFollUp).format('DD MMM YYYY')}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="col-md-4">
+                        <table className="table table-sm table-borderless">
+                          <tbody>
+                            <tr>
+                              <td>Lead Type</td>
+                              <td>{getLeadType(lead?.leadType)}</td>
+                            </tr>
+                            <tr>
+                              <td>Lead Form</td>
+                              <td>
+                                {getIdByLabel(leadFromList, lead?.leadFrom)}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Demo Taken</td>
+                              <td>
+                                {getIdByLabel(leadFromList, lead?.demoBy)}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Demo Status</td>
+                              <td>{getYesNotStatus(lead?.demoStatus)}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="col-md-4">
+                        <table className="table table-sm table-borderless">
+                          <tbody>
+                            <tr>
+                              <td>Total Fees</td>
+                              <td>{lead?.totfees}</td>
+                            </tr>
+                            <tr>
+                              <td>Branch</td>
+                              <td>{lead.branch}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="col-md-12">
+                        <span className="text-gray">Comment</span>
+                        {lead.comments.map(({ notes }) => (
+                          <span
+                            className="notes"
+                            dangerouslySetInnerHTML={{ __html: notes }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
     </div>
   );
 };

@@ -10,3 +10,4 @@ export { NormalSearch } from './search';
 export { NormalCard } from './card';
 export { NormalCheckbox } from './checkbox';
 export { NormalProgressBars } from './progressBar';
+export { Normaltabs } from './tabs';

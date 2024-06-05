@@ -1,0 +1,15 @@
+.batch-card {
+    .title-batch {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-size: 1.2rem;
+    }
+    .text-batch-qu{
+        color: #31374A;
+    }
+    .progress {
+        height: 5px;
+    }
+}

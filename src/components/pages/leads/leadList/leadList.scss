@@ -1,0 +1,14 @@
+.lead-card{
+    .card-body{
+        .table{
+            tr{
+                td:first-child{
+                    color: #a0a0a0;
+                }
+            }
+        }
+        .text-gray{
+            color: #a0a0a0;
+        }
+    }
+}

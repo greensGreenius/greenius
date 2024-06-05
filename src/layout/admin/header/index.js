@@ -1,10 +1,32 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { NormalButton } from 'components/common';
 import brnadFullLogo from 'assets/img/GREENIUS_logo.svg';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Swal from 'sweetalert2';
+import LogoutIcon from '@mui/icons-material/Logout';
 import './header.scss';
 
 export const Header = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    Swal.fire({
+      title: 'Are you sure you want to logout!',
+      // text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/');
+      }
+    });
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg bg-white shadow app-header">
+    <nav className="navbar navbar-expand-lg bg-primary shadow app-header">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/lead">
           <img
@@ -28,22 +50,23 @@ export const Header = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
             <li className="nav-item">
-              <Link className="navbar-brand" to="/home">
+              {/* <Link className="navbar-brand" to="/home">
                 Home
-              </Link>
+              </Link> */}
             </li>
           </ul>
-          {/* <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form> */}
+          {/* { */}
+          <NormalButton
+            onClick={handleLogin}
+            label={
+              <span>
+                <LogoutIcon /> Logout
+              </span>
+            }
+            className="btn text-white"
+            variant="outlined"
+          />
+          {/* } */}
         </div>
       </div>
     </nav>

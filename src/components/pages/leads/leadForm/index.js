@@ -7,21 +7,28 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {
   COURSE_ENQUIRY_STATUS_LIST,
   LEAD_TYPE_LIST,
-  DEMO_STATUS_LIST
+  DEMO_STATUS_LIST,
+  BRANCH_LIST,
+  LEAD_TYPE
 } from 'services/constants';
 import SimpleReactValidator from 'simple-react-validator';
 import { leadSchemaModule } from 'services/module';
-import { createLead } from 'api/lead';
+import { userGetByRole } from 'services/helperFunctions';
+import { createLead, updateLead } from 'api/lead';
 
 export const LeadForm = ({
   onSucess = () => {},
   leadFromList = [],
-  courseList = []
+  courseList = [],
+  editLeadObject = null
 }) => {
   const simpleValidator = useRef(
     new SimpleReactValidator({ className: 'error-message' })
   );
-  const [leadFormObject, setLeadFormObject] = useState({ ...leadSchemaModule });
+  const [leadFormObject, setLeadFormObject] = useState({
+    ...leadSchemaModule,
+    ...editLeadObject
+  });
   const [isLoadingFrom, setIsLoadingFrom] = useState(false);
   const [, forceUpdate] = useState();
 
@@ -67,7 +74,9 @@ export const LeadForm = ({
 
       if (formValid) {
         setIsLoadingFrom(true);
-        const res = await createLead(leadFormObject);
+        const res = (await leadFormObject?.id)
+          ? updateLead(leadFormObject, leadFormObject.id)
+          : createLead(leadFormObject);
         onSucess(leadFormObject, res);
       } else {
         simpleValidator.current.showMessages();
@@ -148,16 +157,34 @@ export const LeadForm = ({
           )}
         />
       </div>
+      {leadFormObject.leadType !== LEAD_TYPE.INSTAGRAM &&
+        leadFormObject.leadType !== LEAD_TYPE.BRANCH && (
+          <div className="col-md-6">
+            <NormalSelect
+              label="Lead Form"
+              name="leadFrom"
+              option={userGetByRole(leadFromList, leadFormObject.leadType)}
+              onChange={handleInputChange}
+              value={leadFormObject.leadFrom}
+              errorMessage={simpleValidator.current.message(
+                'Lead Form',
+                leadFormObject.leadFrom,
+                'required'
+              )}
+            />
+          </div>
+        )}
+
       <div className="col-md-6">
         <NormalSelect
-          label="Lead Form"
-          name="leadFrom"
-          option={leadFromList}
+          label="Branch"
+          name="branch"
+          option={BRANCH_LIST}
           onChange={handleInputChange}
-          value={leadFormObject.leadFrom}
+          value={leadFormObject.branch}
           errorMessage={simpleValidator.current.message(
-            'Lead Form',
-            leadFormObject.leadFrom,
+            'Branch',
+            leadFormObject.branch,
             'required'
           )}
         />
@@ -206,14 +233,14 @@ export const LeadForm = ({
       </div>
       <div className="col-md-6">
         <NormalSelect
-          label="Status"
-          name="status"
+          label="Lead Status"
+          name="leadstatus"
           option={COURSE_ENQUIRY_STATUS_LIST}
           onChange={handleInputChange}
-          value={leadFormObject.status}
+          value={leadFormObject.leadstatus}
           errorMessage={simpleValidator.current.message(
-            'Status',
-            leadFormObject.status,
+            'Lead Status',
+            leadFormObject.leadstatus,
             'required'
           )}
         />
@@ -244,11 +271,11 @@ export const LeadForm = ({
                 console.log('Editor is ready to use!', editor);
               }}
               onChange={(event, editor) => {
-                // console.log(
-                //   'event------------>',
-                //   webinarObjectFrom,
-                //   editor.getData()
-                // );
+                console.log(
+                  'event------------>',
+                  // webinarObjectFrom,
+                  editor.getData()
+                );
                 const data = editor.getData();
                 handleAddCommentsForm(data, i);
               }}
@@ -277,7 +304,7 @@ export const LeadForm = ({
           className="me-2 btn-primary"
           //   isLoader={isLoadingFrom}
           onClick={handleleadSubmit}
-          label="Save Changes"
+          label={`${leadFormObject?.id ? 'Update' : 'Save'} Changes`}
         />
       </div>
     </div>
