@@ -5,6 +5,7 @@ export const Toast = ({
   message = '',
   position = 'top-right'
 }) => {
+  console.log('----', type);
   toast[type](`🦄 ${message}`, {
     position,
     autoClose: 5000,

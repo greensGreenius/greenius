@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 import { jwtDecode } from 'jwt-decode';
+import { Toast } from 'services/toast';
 import { EXIST_LOCAL_STORAGE, CURRENT_USER } from '../constants';
 
 export const isAuthenticated = () => {
@@ -12,11 +13,11 @@ export const isAuthenticated = () => {
     }
     localStorage.clear();
     localStorage.setItem(EXIST_LOCAL_STORAGE.THEME_MODE, themeMode);
-    //   Toast({
-    //     type: 'danger',
-    //     message: 'Your Session has expired',
-    //     title: 'Error'
-    //   });
+    Toast({
+      type: 'error',
+      message: 'Your Session has expired',
+      title: 'Error'
+    });
     console.error('session expired');
     //   history.push('/');
     return false;

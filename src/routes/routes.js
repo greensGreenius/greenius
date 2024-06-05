@@ -23,13 +23,13 @@ const routers = [
   {
     component: 'Adminlayout',
     path: 'home',
-    auth: false,
+    auth: true,
     exact: false,
     childrens: [
       {
         component: 'HomePage',
         path: '/',
-        auth: false,
+        auth: true,
         exact: true
       }
     ]
@@ -37,13 +37,13 @@ const routers = [
   {
     component: 'Adminlayout',
     path: '/lead',
-    auth: false,
+    auth: true,
     exact: false,
     childrens: [
       {
         component: 'LeadPage',
         path: '',
-        auth: false,
+        auth: true,
         exact: true
       }
     ]
@@ -51,13 +51,13 @@ const routers = [
   {
     component: 'Adminlayout',
     path: '/user',
-    auth: false,
+    auth: true,
     exact: false,
     childrens: [
       {
         component: 'UserPage',
         path: '',
-        auth: false,
+        auth: true,
         exact: true
       }
     ]
@@ -65,13 +65,13 @@ const routers = [
   {
     component: 'Adminlayout',
     path: '/course',
-    auth: false,
+    auth: true,
     exact: false,
     childrens: [
       {
         component: 'CoursePage',
         path: '',
-        auth: false,
+        auth: true,
         exact: true
       }
     ]
@@ -79,13 +79,13 @@ const routers = [
   {
     component: 'Adminlayout',
     path: '/batch',
-    auth: false,
+    auth: true,
     exact: false,
     childrens: [
       {
         component: 'BatchPage',
         path: '',
-        auth: false,
+        auth: true,
         exact: true
       }
     ]
@@ -93,13 +93,13 @@ const routers = [
   {
     component: 'Adminlayout',
     path: '/candidate',
-    auth: false,
+    auth: true,
     exact: false,
     childrens: [
       {
         component: 'CandidatePage',
         path: '',
-        auth: false,
+        auth: true,
         exact: true
       }
     ]
@@ -111,13 +111,13 @@ const routers = [
   //   component: 'Adminlayout',
   //   path: '/devLayout',
   //   redirect: '/devLayout/components/',
-  //   auth: false,
+  //    auth: true,
   //   exact: false,
   //   childrens: [
   //     {
   //       component: 'commonComponentsExample',
   //       path: '/',
-  //       auth: false,
+  //        auth: true,
   //       exact: true
   //     }
   //   ]
