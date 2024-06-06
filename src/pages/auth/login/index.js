@@ -91,7 +91,7 @@ export const LoginPage = () => {
         type="submit"
         disabled={isLoading}
         onClick={handleLogin}
-        className="btn btn-primary"
+        className="btn btn-greenius"
       >
         {isLoading && (
           <span className="spinner-border spinner-border-sm me-2" />
