@@ -20,20 +20,22 @@ export const removeStorage = (name = '') => {
   }
 };
 
-// export const getUserType = (userType) => {
-//   switch (userType) {
-//     case USER_TYPE.SUPPER_ADMIN:
-//       return 'Supper Admin';
-//     case USER_TYPE.ADMIN:
-//       return 'Admin';
-//     case USER_TYPE.CANDIDATE:
-//       return 'Candidate';
-//     case USER_TYPE.TRAINER:
-//       return 'Trainer';
-//     default:
-//       return 'No User';
-//   }
-// };
+export const getUserType = (userType) => {
+  switch (userType) {
+    case USER_TYPE.SUPPER_ADMIN:
+      return 'Supper Admin';
+    case USER_TYPE.ADMIN:
+      return 'Admin';
+    case USER_TYPE.CANDIDATE:
+      return 'Candidate';
+    case USER_TYPE.TRAINER:
+      return 'Trainer';
+    case USER_TYPE.BRANCH_ADMIN:
+      return 'Branch Admin';
+    default:
+      return 'No User';
+  }
+};
 
 export const getJoinAndLeadStatus = (status) => {
   switch (status) {
@@ -130,6 +132,10 @@ export const multySearchObjects = (array = [], searchCriteria) => {
       return criteriaKeys.every((key) => {
         const value = searchCriteria[key];
         if (typeof value === 'string') {
+          if (key === 'userName') {
+            const name = `${item?.fname} ${item?.lname}`;
+            return name?.toString().toLowerCase().includes(value.toLowerCase());
+          }
           return item[key]
             ?.toString()
             .toLowerCase()

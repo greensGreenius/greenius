@@ -21,10 +21,13 @@ export const createLead = (body) => {
   return new Promise(async (resolve, reject) => {
     try {
       if (isAuthenticated()) {
-        const { userId, fname, lname } = jwtDecodeDetails();
+        const {
+          user_id,
+          userObj: { fname, lname }
+        } = jwtDecodeDetails();
         const userReq = {
           ...body,
-          createdBy: { name: `${fname} ${lname}`, userId }
+          createdBy: { name: `${fname} ${lname}`, user_id }
         };
         delete userReq.id;
         const docRef = await addDoc(
@@ -80,13 +83,17 @@ export const updateLead = (body, id) => {
   return new Promise(async (resolve, reject) => {
     try {
       if (isAuthenticated()) {
+        const {
+          user_id,
+          userObj: { fname, lname }
+        } = jwtDecodeDetails();
         const userReq = {
           ...body,
           updatedBy: [
             ...body.updatedBy,
             {
-              name: `Anvesh babu`,
-              userId: '001',
+              name: `${fname} ${lname}`,
+              userId: user_id,
               date: new Date().toISOString()
             }
           ]

@@ -6,12 +6,16 @@ import { USER_LIST } from 'services/constants';
 import SimpleReactValidator from 'simple-react-validator';
 import { userSchemaModule } from 'services/module';
 import { createAuthentication } from 'api/auth';
+import { updateUser } from 'api/user';
 
-export const UserForm = ({ onSucess = () => {} }) => {
+export const UserForm = ({ onSucess = () => {}, editUserObject = {} }) => {
   const simpleValidator = useRef(
     new SimpleReactValidator({ className: 'error-message' })
   );
-  const [userFormObject, setUserFormObject] = useState({ ...userSchemaModule });
+  const [userFormObject, setUserFormObject] = useState({
+    ...userSchemaModule,
+    ...editUserObject
+  });
   const [isLoadingFrom, setIsLoadingFrom] = useState(false);
   const [, forceUpdate] = useState();
 
@@ -32,7 +36,9 @@ export const UserForm = ({ onSucess = () => {} }) => {
       console.log('------', formValid);
       if (formValid) {
         setIsLoadingFrom(true);
-        const userRes = await createAuthentication(userFormObject);
+        const userRes = userFormObject?.id
+          ? await updateUser(userFormObject, userFormObject?.id)
+          : await createAuthentication(userFormObject);
         onSucess(userFormObject, userRes);
         setIsLoadingFrom(false);
       } else {
@@ -91,6 +97,7 @@ export const UserForm = ({ onSucess = () => {} }) => {
           onChange={handleInputChange}
           name="email"
           value={userFormObject.email}
+          disabled={userFormObject?.id}
           errorMessage={simpleValidator.current.message(
             'Email',
             userFormObject.email,
@@ -104,6 +111,7 @@ export const UserForm = ({ onSucess = () => {} }) => {
           onChange={handleInputChange}
           name="password"
           type="password"
+          disabled={userFormObject?.id}
           value={userFormObject.password}
           errorMessage={simpleValidator.current.message(
             'Password',
@@ -148,12 +156,13 @@ export const UserForm = ({ onSucess = () => {} }) => {
           disabled={isLoadingFrom}
           label="Cancel"
           color="primary"
+          // disabled={isLoadingFrom}
         />
         <NormalButton
           className="me-2 btn-primary"
-          //   isLoader={isLoadingFrom}
+          isLoader={isLoadingFrom}
           onClick={handleleadSubmit}
-          label="Save Changes"
+          label={`${userFormObject?.id ? 'Update' : 'Save'} Changes`}
         />
       </div>
     </div>

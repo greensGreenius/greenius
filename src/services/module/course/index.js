@@ -1,4 +1,5 @@
 export const courseSchemaModule = {
   name: '',
-  price: ''
+  price: '',
+  updatedBy: []
 };

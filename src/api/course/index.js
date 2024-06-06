@@ -10,33 +10,38 @@ import {
   query
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-// import { isAuthenticated, jwtDecodeDetails } from 'services/utilities';
+import { isAuthenticated, jwtDecodeDetails } from 'services/utilities';
 import { DB_NAME } from 'services/constants';
 import { Toast } from 'services/toast';
 
 export const createCourse = (body) => {
   return new Promise(async (resolve, reject) => {
     try {
-      //   if (isAuthenticated()) {
-      const userReq = {
-        ...body,
-        createdBy: {
-          name: `Anvesh babu`,
-          userId: '001',
-          date: new Date().toISOString()
-        }
-      };
+      if (isAuthenticated()) {
+        const {
+          user_id,
+          userObj: { fname, lname }
+        } = jwtDecodeDetails();
+        const userReq = {
+          ...body,
+          createdBy: {
+            name: `${fname} ${lname}`,
+            userId: user_id,
+            date: new Date().toISOString()
+          }
+        };
 
-      //   let {
-      //     user_id,
-      //     userObj: { first_name, last_name }
-      //   } = jwtDecodeDetails();
-      const docRef = await addDoc(
-        collection(getFirestore(), DB_NAME?.COURSE),
-        userReq
-      );
-      resolve(docRef);
-      Toast({ message: 'Course Add successfully' });
+        //   let {
+        //     user_id,
+        //     userObj: { first_name, last_name }
+        //   } = jwtDecodeDetails();
+        const docRef = await addDoc(
+          collection(getFirestore(), DB_NAME?.COURSE),
+          userReq
+        );
+        resolve(docRef);
+        Toast({ message: 'Course Add successfully' });
+      }
     } catch (e) {
       // eslint-disable-next-line no-undef
       const message = error?.message || 'Something went wrong';

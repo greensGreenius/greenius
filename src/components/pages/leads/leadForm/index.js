@@ -74,9 +74,9 @@ export const LeadForm = ({
 
       if (formValid) {
         setIsLoadingFrom(true);
-        const res = (await leadFormObject?.id)
-          ? updateLead(leadFormObject, leadFormObject.id)
-          : createLead(leadFormObject);
+        const res = leadFormObject?.id
+          ? await updateLead(leadFormObject, leadFormObject.id)
+          : await createLead(leadFormObject);
         onSucess(leadFormObject, res);
       } else {
         simpleValidator.current.showMessages();

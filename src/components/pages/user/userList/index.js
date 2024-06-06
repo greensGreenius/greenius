@@ -1,9 +1,14 @@
 import { NormalTable } from 'components/common';
-import { useEffect, useState } from 'react';
-import { getAllUser } from 'api/user';
+import { getUserType, multySearchObjects } from 'services/helperFunctions';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 
-export const UserList = () => {
-  const [userList, setUserList] = useState([]);
+export const UserList = ({
+  userList = [],
+  isUserLoading = false,
+  filterObject = '',
+  onEdit = () => {}
+}) => {
   const candidateHeader = [
     {
       lable: 'S.no'
@@ -25,21 +30,13 @@ export const UserList = () => {
       lable: 'Action'
     }
   ];
-  const handleGetUserList = async () => {
-    const userResList = await getAllUser();
-    setUserList(userResList);
-    console.log('userResList--------->', userResList);
-  };
-
-  useEffect(() => {
-    handleGetUserList();
-  }, []);
 
   return (
     <div className="row mt-2">
       <div className="col-12">
         <NormalTable
-          rowData={userList}
+          rowData={multySearchObjects(userList, filterObject)}
+          isLoader={isUserLoading}
           columnData={candidateHeader}
           renderItem={(data, i) => (
             <tr>
@@ -49,7 +46,12 @@ export const UserList = () => {
               </td>
               <td>{data.phone}</td>
               <td>{data.email}</td>
-              <td>{data.userType}</td>
+              <td>{getUserType(data.userType)}</td>
+              <td>
+                <IconButton color="success" onClick={() => onEdit(data)}>
+                  <EditIcon />
+                </IconButton>
+              </td>
             </tr>
           )}
         />

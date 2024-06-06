@@ -5,5 +5,6 @@ export const userSchemaModule = {
   email: '',
   status: 0,
   password: '',
-  userType: 0
+  userType: 0,
+  updatedBy: []
 };

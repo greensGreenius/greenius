@@ -7,7 +7,8 @@ import {
   collection,
   getDocs,
   getDoc,
-  query
+  query,
+  updateDoc
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { isAuthenticated, jwtDecodeDetails } from 'services/utilities';
@@ -18,12 +19,19 @@ export const createUser = (body) => {
   return new Promise(async (resolve, reject) => {
     try {
       if (isAuthenticated()) {
-        const { userId, fname, lname } = jwtDecodeDetails();
+        const {
+          user_id,
+          userObj: { fname, lname }
+        } = jwtDecodeDetails();
         const userReq = {
           ...body,
-          createdBy: { name: `${fname} ${lname}`, userId }
+          createdBy: { name: `${fname} ${lname}`, user_id }
         };
-        console.log('userReq createUser----------', userReq);
+        console.log(
+          'userReq createUser----------',
+          userReq,
+          jwtDecodeDetails()
+        );
 
         const docRef = await setDoc(
           doc(getFirestore(), DB_NAME?.USER, userReq.userId),
@@ -33,6 +41,7 @@ export const createUser = (body) => {
         resolve(docRef);
       }
     } catch (e) {
+      console.error('Error adding document: ', e);
       // eslint-disable-next-line no-undef
       const message = error?.message || 'Something went wrong';
       Toast({ message, type: 'error' });
@@ -108,6 +117,41 @@ export const getUserDetail = (body) => {
       });
       reject(e);
       console.error('Error adding document: ', e);
+    }
+  });
+};
+
+export const updateUser = (body, id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (isAuthenticated()) {
+        const {
+          user_id,
+          userObj: { fname, lname }
+        } = jwtDecodeDetails();
+        const userReq = {
+          ...body,
+          updatedBy: [
+            ...body.updatedBy,
+            {
+              name: `${fname} ${lname}`,
+              userId: user_id,
+              date: new Date().toISOString()
+            }
+          ]
+        };
+        delete userReq.id;
+        const docRef = await updateDoc(doc(getFirestore(), 'user', id), body);
+        resolve(docRef);
+      }
+    } catch (e) {
+      Toast({
+        type: 'error',
+        message: 'Internal Server Error',
+        title: 'Error'
+      });
+      console.error('Error adding document: ', e);
+      reject(e);
     }
   });
 };
