@@ -129,6 +129,20 @@ export const LeadForm = ({
         />
       </div>
       <div className="col-md-6">
+        <NormalInput
+          label="Enter Enquiry Date"
+          type="date"
+          onChange={handleInputChange}
+          name="enqDate"
+          value={leadFormObject.enqDate}
+          errorMessage={simpleValidator.current.message(
+            'Enquiry Date',
+            leadFormObject.enqDate,
+            'required'
+          )}
+        />
+      </div>
+      <div className="col-md-6">
         <NormalSelect
           multiple
           label="Course"

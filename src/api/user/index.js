@@ -143,6 +143,7 @@ export const updateUser = (body, id) => {
         delete userReq.id;
         const docRef = await updateDoc(doc(getFirestore(), 'user', id), body);
         resolve(docRef);
+        Toast({ message: 'User Update successfully' });
       }
     } catch (e) {
       Toast({

@@ -46,13 +46,17 @@ export const LeadPage = () => {
   }, []);
 
   const handleGetCourseList = async () => {
-    const courseResList = await getAllCourse();
-    const list = courseResList.map(({ name, id }) => ({
-      value: id,
-      label: name
-    }));
-    setCourseList(list);
-    console.log('userResList--------->', list);
+    try {
+      const courseResList = await getAllCourse();
+      const list = courseResList.map(({ name, id }) => ({
+        value: id,
+        label: name
+      }));
+      setCourseList(list);
+      console.log('userResList--------->', list);
+    } catch (e) {
+      console.log('e--------->', e);
+    }
   };
   useEffect(() => {
     handleGetCourseList();

@@ -108,3 +108,32 @@ export const BRANCH_LIST = [
     value: 2
   }
 ];
+
+export const BATCH_STATUS_LIST = [
+  {
+    label: 'Not Yet',
+    value: 0
+  },
+  {
+    label: 'Processing',
+    value: 1
+  },
+  {
+    label: 'Complited',
+    value: 2
+  },
+  {
+    label: 'Hold',
+    value: 3
+  }
+];
+
+export const WEEK_LIST = [
+  { value: 0, label: 'Sun' },
+  { value: 1, label: 'Mon' },
+  { value: 2, label: 'Tue' },
+  { value: 3, label: 'Wed' },
+  { value: 4, label: 'Thu' },
+  { value: 5, label: 'Fri' },
+  { value: 6, label: 'Sat' }
+];

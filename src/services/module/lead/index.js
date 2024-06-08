@@ -9,6 +9,7 @@ export const leadSchemaModule = {
   nextFollUp: '',
   demoBy: '',
   demoStatus: '',
+  enqDate: '',
   courses: [],
   branch: '',
   comments: [

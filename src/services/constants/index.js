@@ -7,9 +7,11 @@ export {
   COURSE_ENQUIRY_STATUS_LIST,
   DEMO_STATUS_LIST,
   LEAD_TYPE_LIST,
-  BRANCH_LIST
+  BRANCH_LIST,
+  BATCH_STATUS_LIST,
+  WEEK_LIST
 } from './options';
 
 export { MENU } from './menu';
-export { COURSE_ENQUIRY_STATUS, LEAD_TYPE, USER_TYPE } from './flags';
+export { COURSE_ENQUIRY_STATUS, LEAD_TYPE, USER_TYPE, STATUS } from './flags';
 export { EXIST_LOCAL_STORAGE, CURRENT_USER, DB_NAME } from './app';

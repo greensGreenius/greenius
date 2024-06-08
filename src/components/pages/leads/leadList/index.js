@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react';
 import { getAllLead } from 'api/lead';
+import { BRANCH_LIST, COURSE_ENQUIRY_STATUS } from 'services/constants';
 import {
   getJoinAndLeadStatus,
   getYesNotStatus,
@@ -98,10 +99,18 @@ export const LeadList = ({
           <h4>No Data Found...</h4>
         ))
       )}
+      {}
       {!isLoading &&
         multySearchObjects(leadList, filterObject).map((lead) => (
-          <div className="col-12">
-            <div className="card lead-card">
+          <div className="col-12 ">
+            <div
+              className={`card lead-card  ${
+                moment(lead.nextFollUp).isSameOrBefore(new Date()) &&
+                COURSE_ENQUIRY_STATUS.JOINED !== lead.leadstatus &&
+                COURSE_ENQUIRY_STATUS.NOT_INTERESTED !== lead.leadstatus &&
+                'follow-near'
+              }`}
+            >
               <div className="card-body">
                 <div className="row">
                   <div className="col-12">
@@ -137,10 +146,14 @@ export const LeadList = ({
                               <td>{handleRenderCouseView(lead.courses)}</td>
                             </tr>
                             <tr>
-                              <td>Next Follow up</td>
+                              <td>Enquiry Date</td>
                               <td>
-                                {moment(lead.nextFollUp).format('DD MMM YYYY')}
+                                {moment(lead.enqDate).format('DD MMM YYYY')}
                               </td>
+                            </tr>
+                            <tr>
+                              <td>Branch</td>
+                              <td>{getIdByLabel(BRANCH_LIST, lead.branch)}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -179,8 +192,10 @@ export const LeadList = ({
                               <td>{lead?.totfees}</td>
                             </tr>
                             <tr>
-                              <td>Branch</td>
-                              <td>{lead.branch}</td>
+                              <td>Next Follow up</td>
+                              <td>
+                                {moment(lead.nextFollUp).format('DD MMM YYYY')}
+                              </td>
                             </tr>
                           </tbody>
                         </table>

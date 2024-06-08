@@ -22,13 +22,13 @@ export const MENU = [
     icon: 'person',
     link: '/course',
     isShow: true
+  },
+  {
+    title: 'Batch',
+    icon: 'developer_board',
+    link: '/batch',
+    isShow: true
   }
-  // {
-  //   title: 'Batch',
-  //   icon: 'developer_board',
-  //   link: '/batch',
-  //   isShow: true
-  // },
   // {
   //   title: 'Candidate',
   //   icon: 'group',

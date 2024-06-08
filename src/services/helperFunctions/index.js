@@ -56,6 +56,25 @@ export const getJoinAndLeadStatus = (status) => {
   }
 };
 
+export const getBatchStatus = (status) => {
+  switch (status) {
+    case 0:
+      return 'Not Yet';
+    case 1:
+      return 'Processing';
+    case 2:
+      return 'Complited';
+    case 3:
+      return 'Hold';
+    case COURSE_ENQUIRY_STATUS.NOT_INTERESTED:
+      return 'Not Interested';
+    case COURSE_ENQUIRY_STATUS.JOINED:
+      return 'Joined';
+    default:
+      return 'No Status';
+  }
+};
+
 export const getYesNotStatus = (status) => {
   switch (status) {
     case 0:
@@ -140,6 +159,9 @@ export const multySearchObjects = (array = [], searchCriteria) => {
             ?.toString()
             .toLowerCase()
             .includes(value.toLowerCase());
+        }
+        if (typeof value === 'number' && Array.isArray(item[key])) {
+          return item[key]?.includes(value);
         }
         return item[key] === value;
       });
