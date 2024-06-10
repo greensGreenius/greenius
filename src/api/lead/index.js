@@ -10,7 +10,8 @@ import {
   query,
   updateDoc,
   doc,
-  where
+  where,
+  getDoc
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { isAuthenticated, jwtDecodeDetails } from 'services/utilities';
@@ -56,7 +57,7 @@ export const getAllLead = (leadstatus = null) => {
         // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
         console.log('leadstatus.length------>', leadstatus);
         const whereIn =
-          leadstatus > 0 ? where('leadstatus', '==', leadstatus) : '';
+          leadstatus !== -1 ? where('leadstatus', '==', leadstatus) : '';
         const querySnapshot = await getDocs(
           query(collection(getFirestore(), DB_NAME?.CANDIDATE), whereIn)
         );
@@ -70,6 +71,71 @@ export const getAllLead = (leadstatus = null) => {
         //   } else {
       }
     } catch (e) {
+      // eslint-disable-next-line no-undef
+      const message = error?.message || 'Something went wrong';
+      Toast({ message, type: 'error' });
+      reject(e);
+      console.error('Error adding document: ', e);
+    }
+  });
+};
+
+export const getAllCandidate = (classStatus = null) => {
+  getAuth();
+  //   const user = auth.currentUser;
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (isAuthenticated()) {
+        // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
+        console.log('classStatus.length------>', classStatus);
+        const whereIn =
+          classStatus !== -1 ? where('classStatus', '==', classStatus) : '';
+        const querySnapshot = await getDocs(
+          query(collection(getFirestore(), DB_NAME?.CANDIDATE), whereIn)
+        );
+        const data = [];
+        console.log(querySnapshot.size);
+        querySnapshot.forEach((leadDoc) => {
+          // doc.data() is never undefined for query doc snapshots
+          data.push({ ...leadDoc.data(), id: leadDoc.id });
+        });
+        resolve(data);
+        //   } else {
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-undef
+      const message = error?.message || 'Something went wrong';
+      Toast({ message, type: 'error' });
+      reject(e);
+      console.error('Error adding document: ', e);
+    }
+  });
+};
+
+export const getCandidateById = (id = null) => {
+  getAuth();
+  //   const user = auth.currentUser;
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (isAuthenticated()) {
+        // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
+
+        const docSnap = await getDoc(
+          doc(getFirestore(), DB_NAME?.CANDIDATE, id)
+        );
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          resolve(data);
+        } else {
+          Toast({ message: 'No such document!', type: 'error' });
+          // docSnap.data() will be undefined in this case
+          console.log('No such document!');
+        }
+
+        //   } else {
+      }
+    } catch (e) {
+      console.error('Error adding document: ', e);
       // eslint-disable-next-line no-undef
       const message = error?.message || 'Something went wrong';
       Toast({ message, type: 'error' });
@@ -99,6 +165,7 @@ export const updateLead = (body, id) => {
           ]
         };
         delete userReq.id;
+        console.log(id);
 
         //   let {
         //     user_id,
@@ -109,10 +176,11 @@ export const updateLead = (body, id) => {
           userReq
         );
         resolve(docRef);
-        resolve(docRef);
+        // resolve(docRef);
         Toast({ message: 'Lead Update successfully' });
       }
     } catch (e) {
+      console.error('Error adding document: ', e);
       // eslint-disable-next-line no-undef
       const message = error?.message || 'Something went wrong';
       Toast({ message, type: 'error' });

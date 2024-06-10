@@ -60,6 +60,7 @@ export const LeadList = ({
       setLeadList([]);
       setLoading(true);
       const leadResList = await getAllLead(leadstatus);
+      console.log('leadResList---', leadResList);
       setLeadList(leadResList);
       setLoading(false);
     } catch (e) {
@@ -94,12 +95,11 @@ export const LeadList = ({
       {isLoading && leadList.length === 0 ? (
         <h4>Loading...</h4>
       ) : (
-        leadList.length === 0 ||
-        (multySearchObjects(leadList, filterObject).length === 0 && (
+        (leadList.length === 0 ||
+          multySearchObjects(leadList, filterObject).length === 0) && (
           <h4>No Data Found...</h4>
-        ))
+        )
       )}
-      {}
       {!isLoading &&
         multySearchObjects(leadList, filterObject).map((lead) => (
           <div className="col-12 ">

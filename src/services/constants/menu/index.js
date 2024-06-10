@@ -28,13 +28,13 @@ export const MENU = [
     icon: 'developer_board',
     link: '/batch',
     isShow: true
+  },
+  {
+    title: 'Candidate',
+    icon: 'group',
+    link: '/candidate',
+    isShow: true
   }
-  // {
-  //   title: 'Candidate',
-  //   icon: 'group',
-  //   link: '/candidate',
-  //   isShow: true
-  // }
 
   // {
   //     title: "User",

@@ -16,7 +16,7 @@ export const Normaltabs = (props) => {
 
   const handleChange = (event, newValue) => {
     setActiveIndex(newValue);
-    onChange(newValue);
+    onChange(data[newValue].value);
   };
   return (
     <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: '10px' }}>
@@ -26,7 +26,7 @@ export const Normaltabs = (props) => {
         aria-label="basic tabs example"
       >
         {data.map((iteam, i) => (
-          <Tab label={iteam} {...a11yProps(i)} />
+          <Tab label={iteam.label} {...a11yProps(i)} />
         ))}
       </Tabs>
     </Box>

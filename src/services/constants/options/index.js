@@ -5,7 +5,9 @@ import {
   SETTLEMENT_TYPE,
   // COURSE_STATUS,
   COURSE_ENQUIRY_STATUS,
-  LEAD_TYPE
+  LEAD_TYPE,
+  CLASS_MODE,
+  CANDIDATE_COURSE_STATUS
 } from '../flags';
 
 export const COURSE_ENQUIRY_STATUS_LIST = [
@@ -38,6 +40,29 @@ export const COURSE_ENQUIRY_STATUS_LIST = [
     label: 'Joined',
     value: COURSE_ENQUIRY_STATUS.JOINED,
     color: 'bg-success'
+  }
+];
+
+export const CANDIDATE_CLASS_STATUS_LIST = [
+  {
+    label: 'yet to start',
+    value: CANDIDATE_COURSE_STATUS.YET_TO_START,
+    color: 'bg-warning'
+  },
+  {
+    label: 'Processing',
+    value: CANDIDATE_COURSE_STATUS.PROCESSING,
+    color: 'bg-secondary'
+  },
+  {
+    label: 'Hold',
+    value: CANDIDATE_COURSE_STATUS.DELETE,
+    color: 'bg-info'
+  },
+  {
+    label: 'Complited',
+    value: CANDIDATE_COURSE_STATUS.DELETE,
+    color: 'bg-primary'
   }
 ];
 
@@ -109,6 +134,17 @@ export const BRANCH_LIST = [
   }
 ];
 
+export const YES_NO_LIST = [
+  {
+    label: 'Yes',
+    value: 1
+  },
+  {
+    label: 'No',
+    value: 0
+  }
+];
+
 export const BATCH_STATUS_LIST = [
   {
     label: 'Not Yet',
@@ -136,4 +172,15 @@ export const WEEK_LIST = [
   { value: 4, label: 'Thu' },
   { value: 5, label: 'Fri' },
   { value: 6, label: 'Sat' }
+];
+
+export const CLASS_MODE_LIST = [
+  {
+    label: 'Offline',
+    value: CLASS_MODE.OFFLINE
+  },
+  {
+    label: 'Online',
+    value: CLASS_MODE.ONLINE
+  }
 ];

@@ -5,4 +5,4 @@ export { LeadPage } from './leads';
 export { BranchPage } from './branch';
 export { CoursePage } from './course';
 export { BatchPage } from './batch';
-export { CandidatePage } from './candidate';
+export { CandidatePage, CandidateFormPage } from './candidate';

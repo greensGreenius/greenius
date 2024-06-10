@@ -1,8 +1,10 @@
+/* eslint-disable consistent-return */
 import {
   COURSE_ENQUIRY_STATUS,
   LEAD_TYPE,
   USER_TYPE
 } from 'services/constants';
+import moment from 'moment';
 
 export const setStorage = (name = '', data = '') => {
   localStorage.setItem(name, data);
@@ -114,7 +116,6 @@ export const getIdByLabel = (list = [], id) => {
 };
 
 export const getCoursebyIdLabel = (list = [], id = []) => {
-  console.log('-----id', id, list);
   try {
     if (list?.length > 0) {
       const res = list.filter(({ value }) => id.includes(value), id);
@@ -128,7 +129,6 @@ export const getCoursebyIdLabel = (list = [], id = []) => {
 };
 
 export const isEmptyObj = (obj = {}) => {
-  console.log('obj-----------?', obj);
   return Object?.keys(obj).length === 0;
 };
 
@@ -139,7 +139,7 @@ export const convertStringToHTML = (htmlString) => {
   return html.body.toString();
 };
 
-export const multySearchObjects = (array = [], searchCriteria) => {
+export const multySearchObjects = (array = [], searchCriteria = {}) => {
   // eslint-disable-next-line no-debugger
   // debugger;
   try {
@@ -184,4 +184,22 @@ export const userGetByRole = (userList, role) => {
       return null;
     })
     .filter(Boolean);
+};
+
+export const candidateComplitePer = (batchList, batchId) => {
+  try {
+    const batch = batchList?.find(({ value }) => value === batchId);
+    if (batch) {
+      const current = moment();
+      const stDate = moment(batch.stDate, 'YYYY-MM-DD');
+      const endDate = moment(batch.endDate, 'YYYY-MM-DD');
+      const complitedDays = current.diff(stDate, 'days');
+      const overDays = endDate.diff(stDate, 'days');
+      console.log('diff-------', complitedDays, overDays);
+
+      return Math.round((complitedDays * 100) / overDays);
+    }
+  } catch (e) {
+    return 0;
+  }
 };

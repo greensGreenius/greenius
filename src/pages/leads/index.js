@@ -3,6 +3,7 @@ import { LeadFilter, LeadList, LeadForm } from 'components/pages';
 import { useState, useEffect } from 'react';
 import { getAllUser } from 'api/user';
 import { getAllCourse } from 'api/course';
+import { COURSE_ENQUIRY_STATUS_LIST } from 'services/constants';
 
 export const LeadPage = () => {
   const [isOpenForm, setIsOpenForm] = useState(false);
@@ -12,13 +13,11 @@ export const LeadPage = () => {
   const [activeTabe, setActiveTabe] = useState('');
   const [filterObject, setFilterObject] = useState({});
   const tabData = [
-    'All',
-    'Requested',
-    'Processing',
-    'Interested',
-    'Not Interested',
-    'Not Responding',
-    'Joined'
+    {
+      label: 'All',
+      value: -1
+    },
+    ...COURSE_ENQUIRY_STATUS_LIST
   ];
 
   const handleOpenLeadModal = () => {

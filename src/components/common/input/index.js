@@ -23,25 +23,27 @@ export const NormalInput = (props) => {
       error={!!errorMessage}
       className={`mb-3 ${className}`}
     >
-      <label className="form-label fw-medium">{label}</label>
-      {outlinedInput ? (
-        <OutlinedInput
-          {...props}
-          size={size}
-          label=""
-          placeholder={placeholder ? placeholder : `Enter ${label}`}
-          classes={readOnly ? { root: 'Mui-disabled' } : {}}
-        />
-      ) : (
-        <TextField
-          {...props}
-          classes={readOnly ? { root: 'Mui-disabled' } : {}}
-          size={size}
-        />
-      )}
-      {!!errorMessage && (
-        <div className="form-text text-danger">{errorMessage}</div>
-      )}
+      <>
+        <label className="form-label fw-medium">{label}</label>
+        {outlinedInput ? (
+          <OutlinedInput
+            {...props}
+            size={size}
+            label=""
+            placeholder={placeholder ? placeholder : `Enter ${label}`}
+            classes={readOnly ? { root: 'Mui-disabled' } : {}}
+          />
+        ) : (
+          <TextField
+            {...props}
+            classes={readOnly ? { root: 'Mui-disabled' } : {}}
+            size={size}
+          />
+        )}
+        {!!errorMessage && (
+          <div className="form-text text-danger">{errorMessage}</div>
+        )}
+      </>
     </FormControl>
   );
 };

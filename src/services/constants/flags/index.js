@@ -16,20 +16,24 @@ export const STATUS = {
   ACTIVE: 1
 };
 
-export const COURSE_STATUS = {
+export const YES_NO_STATUS = {
+  NO: 0,
+  YES: 1
+};
+
+export const CANDIDATE_COURSE_STATUS = {
   YET_TO_START: 0,
   PROCESSING: 1,
-  COMPLETED: 2,
   HOLD: 3,
-  DISCONTINUE: 3,
-  DELETE: 4
+  COMPLETED: 4,
+  DELETE: 5
 };
 
 export const SETTLEMENT_TYPE = {
   NO: 0,
   YES: 1
 };
-export const CLASS_TYPE = {
+export const CLASS_M = {
   ONLINE: 0,
   OFFLINE: 1
 };
@@ -49,4 +53,8 @@ export const LEAD_TYPE = {
   TRAINER: 2,
   INSTAGRAM: 3,
   BRANCH_ADMIN: 4
+};
+export const CLASS_MODE = {
+  OFFLINE: 0,
+  ONLINE: 1
 };
