@@ -80,7 +80,7 @@ export const CandidateList = ({
           className="col-md-12"
           onClick={() => handleCandidateRouteEdit(candidate?.id)}
         >
-          <div className="card  batch-card">
+          <div className="card  batch-card mb-4">
             <div className="card-body">
               <div className="row mb-2">
                 <div className="col-md-6">

@@ -59,9 +59,7 @@ export const BatchPage = () => {
         ...data,
         trainerId: trainer?.trainerId
       };
-      if (trainer) {
-        setEditBatchObject(batchObj);
-      }
+      setEditBatchObject(batchObj);
 
       setIsOpenForm(true);
     } catch (e) {
@@ -91,7 +89,7 @@ export const BatchPage = () => {
 
       <NormalModal
         toggle={handleOpenLeadModal}
-        title="Add Lead"
+        title={`${editBatchObject?.id ? 'Update' : 'Add'} Batch`}
         isShow={isOpenForm}
       >
         <BatchForm

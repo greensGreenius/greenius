@@ -1,7 +1,7 @@
 import { Normalbreadcrumb, Normaltabs } from 'components/common';
 import { CandidateFilter, CandidateList } from 'components/pages';
 import { useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getAllCandidate } from 'api/lead';
 import { CANDIDATE_CLASS_STATUS_LIST } from 'services/constants';
 import { getAllCourse } from 'api/course';
@@ -10,7 +10,7 @@ import { getAllBatch } from 'api/batch';
 
 export const CandidatePage = () => {
   const [activeTabe, setActiveTabe] = useState('');
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [candidateList, setCandidateList] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [courseList, setCourseList] = useState([]);
@@ -25,9 +25,9 @@ export const CandidatePage = () => {
     },
     ...CANDIDATE_CLASS_STATUS_LIST
   ];
-  // const handleOpenLeadModal = () => {
-  //   navigate('/candidate/new');
-  // };
+  const handleOpenLeadModal = () => {
+    navigate('/candidate/new');
+  };
 
   const handleGetCandidateList = async (classStatus = -1) => {
     try {
@@ -107,9 +107,9 @@ export const CandidatePage = () => {
   return (
     <>
       <Normalbreadcrumb
-        // onBtnClick={handleOpenLeadModal}
+        onBtnClick={handleOpenLeadModal}
         title="Candidate"
-        // btnLabel="Add Candidate"
+        btnLabel="Add Candidate"
       />
       <div className="row">
         <div className="col-12">

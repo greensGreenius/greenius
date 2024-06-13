@@ -10,12 +10,14 @@ import {
   YES_NO_STATUS,
   STATUS,
   CLASS_MODE_LIST,
-  CANDIDATE_CLASS_STATUS_LIST
+  CANDIDATE_CLASS_STATUS_LIST,
+  DEMO_STATUS_LIST,
+  COURSE_ENQUIRY_STATUS
 } from 'services/constants';
 import SimpleReactValidator from 'simple-react-validator';
 import { candidateSchemaModule } from 'services/module';
 import { userGetByRole } from 'services/helperFunctions';
-import { getCandidateById, updateLead } from 'api/lead';
+import { getCandidateById, updateLead, createLead } from 'api/lead';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Toast } from 'services/toast';
 
@@ -34,16 +36,22 @@ export const CandidateForm = ({
   const [candidateFormObject, setCandidateFormObject] = useState({
     batchIds: [],
     ...candidateSchemaModule,
-    ...editLeadObject
+    ...editLeadObject,
+    leadstatus: COURSE_ENQUIRY_STATUS.JOINED
   });
   console.log('candidateFormObject-----', candidateFormObject);
   const [isLoadingFrom, setIsLoadingFrom] = useState(false);
   const [, forceUpdate] = useState();
 
-  const handleGetCandidateBuId = async () => {
+  const handleGetCandidateById = async () => {
     try {
       if (!candidateId) {
+        setIsLoadingFrom(false);
         Toast({ message: 'Sorry Candidate Id is missing', type: 'error' });
+        return;
+      }
+      if (candidateId === 'new') {
+        setIsLoadingFrom(false);
         return;
       }
       setIsLoadingFrom(true);
@@ -57,7 +65,7 @@ export const CandidateForm = ({
     }
   };
   useEffect(() => {
-    handleGetCandidateBuId();
+    handleGetCandidateById();
   }, []);
 
   const handleInputChange = (event) => {
@@ -69,11 +77,10 @@ export const CandidateForm = ({
       ...candidateFormObject,
       [name]: type === 'checkbox' ? checked : value
     });
+    simpleValidator.current.purgeFields();
   };
 
   const handleGetPendingFees = (totfees = 0, payedfe = 0) => {
-    console.log('totfees-----', totfees);
-    console.log('payedfe-----', payedfe);
     return totfees - payedfe;
   };
 
@@ -99,15 +106,17 @@ export const CandidateForm = ({
           status: STATUS.ACTIVE
         }
       ];
-
-      delete body.batchId;
+      // delete body.batchId;
 
       const formValid = simpleValidator.current.allValid();
 
       if (formValid) {
         setIsLoadingFrom(true);
         console.log('body.batchIds-----', candidateFormObject);
-        const res = await updateLead(candidateFormObject, candidateId);
+        const res =
+          candidateId === 'new'
+            ? await createLead(body)
+            : await updateLead(body, candidateId);
         console.log('res-----', res);
         navigate('/candidate');
       } else {
@@ -251,6 +260,20 @@ export const CandidateForm = ({
                     </div>
                     <div className="col-md-3">
                       <NormalSelect
+                        label="Demo Status"
+                        name="demoStatus"
+                        option={DEMO_STATUS_LIST}
+                        onChange={handleInputChange}
+                        value={candidateFormObject.demoStatus}
+                        errorMessage={simpleValidator.current.message(
+                          'Demo Status',
+                          candidateFormObject.demoStatus,
+                          'required'
+                        )}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <NormalSelect
                         label="Class Mode"
                         name="classMode"
                         option={CLASS_MODE_LIST}
@@ -273,6 +296,20 @@ export const CandidateForm = ({
                         errorMessage={simpleValidator.current.message(
                           'Class Status',
                           candidateFormObject.classStatus,
+                          'required'
+                        )}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <NormalInput
+                        label="Class Start"
+                        type="date"
+                        onChange={handleInputChange}
+                        value={candidateFormObject.classStart}
+                        name="classStart"
+                        errorMessage={simpleValidator.current.message(
+                          'Class Start',
+                          candidateFormObject.classStart,
                           'required'
                         )}
                       />
@@ -468,7 +505,9 @@ export const CandidateForm = ({
                         className="me-2 btn-primary"
                         //   isLoader={isLoadingFrom}
                         onClick={handleleadSubmit}
-                        label={`${candidateId ? 'Update' : 'Save'} Changes`}
+                        label={`${
+                          candidateId !== 'new' ? 'Update' : 'Save'
+                        } Changes`}
                       />
                     </div>
                   </div>

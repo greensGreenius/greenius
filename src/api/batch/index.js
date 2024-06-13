@@ -8,7 +8,8 @@ import {
   collection,
   getDocs,
   query,
-  updateDoc
+  updateDoc,
+  where
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { isAuthenticated, jwtDecodeDetails } from 'services/utilities';
@@ -105,18 +106,33 @@ export const getAllBatch = () => {
         query(collection(getFirestore(), DB_NAME?.BATCH))
       );
       const data = [];
-      querySnapshot.forEach((courseDoc) => {
+      querySnapshot.forEach(async (courseDoc) => {
         // doc.data() is never undefined for query doc snapshots
+        const candidateQuerySnapshot = await getDocs(
+          query(
+            collection(getFirestore(), DB_NAME?.CANDIDATE),
+            where('batchId', '==', courseDoc.id)
+          )
+        );
+        // candidateQuerySnapshot.forEach(async (batch) => {
+        //   console.log({ ...batch.data() });
+        // });
+        console.log(candidateQuerySnapshot.size);
         const trainer = courseDoc
           .data()
           .trainerIds.find(({ status }) => status === STATUS.ACTIVE);
         data.push({
           ...courseDoc.data(),
           trainerId: trainer?.trainerId,
-          id: courseDoc.id
+          id: courseDoc.id,
+          countCandidate: candidateQuerySnapshot?.size
         });
+        console.log(querySnapshot.size, data.length, '---------');
+        if (querySnapshot.size === data.length) {
+          resolve(data);
+        }
       });
-      resolve(data);
+
       //   } else {
       //   }
     } catch (e) {

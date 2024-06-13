@@ -104,12 +104,6 @@ const routers = [
       },
       {
         component: 'CandidateFormPage',
-        path: '/new',
-        auth: true,
-        exact: true
-      },
-      {
-        component: 'CandidateFormPage',
         path: '/:candidateId',
         auth: true,
         exact: true

@@ -11,5 +11,6 @@ export const candidateSchemaModule = {
   gitAccount: YES_NO_STATUS.NO,
   projectLink: '',
   batchIds: [],
-  classStatus: 0
+  classStatus: 0,
+  classStart: ''
 };

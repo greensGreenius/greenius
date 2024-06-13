@@ -31,6 +31,24 @@ export const createLead = (body) => {
           createdBy: { name: `${fname} ${lname}`, user_id }
         };
         delete userReq.id;
+        console.log('userReq-------', body.phone);
+
+        const isExists = await getDocs(
+          query(
+            collection(getFirestore(), DB_NAME?.CANDIDATE),
+            where('phone', '==', userReq.phone)
+          )
+        );
+        console.log('isExists.exists()-------', isExists.empty);
+        if (!isExists.empty) {
+          Toast({
+            type: 'warn',
+            message: 'candidate is alredy exist',
+            title: 'warning'
+          });
+          resolve('');
+          return;
+        }
         const docRef = await addDoc(
           collection(getFirestore(), DB_NAME?.CANDIDATE),
           userReq
@@ -39,11 +57,11 @@ export const createLead = (body) => {
         Toast({ message: 'Lead Add successfully' });
       }
     } catch (e) {
+      console.error('Error adding document: ', e);
       // eslint-disable-next-line no-undef
       const message = error?.message || 'Something went wrong';
       Toast({ message, type: 'error' });
       reject(e);
-      console.error('Error adding document: ', e);
     }
   });
 };

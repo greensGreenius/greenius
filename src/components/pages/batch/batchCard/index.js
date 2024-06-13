@@ -60,7 +60,9 @@ export const BatchList = ({
               <div className="d-flex align-items-center mb-2">
                 <p className="fw-bold mb-0  text-truncate lh-1">
                   <span className="text-batch-qu"> Total candidates :</span>{' '}
-                  <span className="fw-semibold  ms-1"> 0</span>
+                  <span className="fw-semibold  ms-1">
+                    {batch?.countCandidate}
+                  </span>
                 </p>
               </div>
               <div className="d-flex mt-4 justify-content-between text-body-tertiary fw-semibold">

@@ -68,8 +68,8 @@ export const BatchForm = ({
         console.log('body--------', body);
         setIsLoadingFrom(true);
         const res = batchFormObject?.id
-          ? await updateBatch(batchFormObject, batchFormObject.id)
-          : await createBatch(batchFormObject);
+          ? await updateBatch(body, batchFormObject.id)
+          : await createBatch(body);
         onSucess(body, res);
       } else {
         simpleValidator.current.showMessages();
