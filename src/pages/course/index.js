@@ -14,6 +14,7 @@ export const CoursePage = () => {
         onBtnClick={handleOpenLeadModal}
         title="Course"
         btnLabel="Add Course"
+        isCount={false}
       />
       <CourseList />
       <NormalModal

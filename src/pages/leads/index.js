@@ -4,14 +4,18 @@ import { useState, useEffect } from 'react';
 import { getAllUser } from 'api/user';
 import { getAllCourse } from 'api/course';
 import { COURSE_ENQUIRY_STATUS_LIST } from 'services/constants';
+import { multySearchObjects } from 'services/helperFunctions';
+import { getAllLead } from 'api/lead';
 
 export const LeadPage = () => {
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [editLeadObject, setEditLeadObject] = useState(null);
   const [leadFromList, setLeadFromList] = useState([]);
   const [courseList, setCourseList] = useState([]);
-  const [activeTabe, setActiveTabe] = useState('');
+  const [activeTabe, setActiveTabe] = useState(-1);
   const [filterObject, setFilterObject] = useState({});
+  const [leadList, setLeadList] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const tabData = [
     {
       label: 'All',
@@ -23,6 +27,19 @@ export const LeadPage = () => {
   const handleOpenLeadModal = () => {
     setIsOpenForm(!isOpenForm);
     setEditLeadObject(null);
+  };
+
+  const handleGetLeadList = async (value = -1) => {
+    try {
+      setLeadList([]);
+      setLoading(true);
+      const leadResList = await getAllLead(value);
+      console.log('leadResList---', leadResList);
+      setLeadList(leadResList);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+    }
   };
 
   const handleGetUserList = async () => {
@@ -42,6 +59,7 @@ export const LeadPage = () => {
 
   useEffect(() => {
     handleGetUserList();
+    handleGetLeadList();
   }, []);
 
   const handleGetCourseList = async () => {
@@ -74,6 +92,7 @@ export const LeadPage = () => {
   const handleChangeTab = (value) => {
     console.log('value--------', value);
     setActiveTabe(value);
+    handleGetLeadList(value);
   };
 
   const handleChangeFilter = (filterObj) => {
@@ -84,6 +103,7 @@ export const LeadPage = () => {
     <>
       <Normalbreadcrumb
         onBtnClick={handleOpenLeadModal}
+        count={multySearchObjects(leadList, filterObject)?.length}
         title="Lead"
         btnLabel="Add Lead"
       />
@@ -99,6 +119,8 @@ export const LeadPage = () => {
         leadFromList={leadFromList}
         onEdit={handleLeadEdit}
         filterObject={filterObject}
+        leadList={leadList}
+        isLoading={isLoading}
       />
 
       <NormalModal

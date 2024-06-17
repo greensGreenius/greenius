@@ -2,6 +2,7 @@ import { Normalbreadcrumb, NormalModal } from 'components/common';
 import { BatchFilter, BatchList, BatchForm } from 'components/pages';
 import { useState, useEffect } from 'react';
 import { STATUS } from 'services/constants';
+import { multySearchObjects } from 'services/helperFunctions';
 import { getAllUser } from 'api/user';
 import { getAllBatch } from 'api/batch';
 
@@ -76,6 +77,7 @@ export const BatchPage = () => {
         onBtnClick={handleOpenLeadModal}
         title="Batch"
         btnLabel="Add Batch"
+        count={multySearchObjects(allBatchList, filterObject).length}
       />
       <BatchFilter userList={userList} onChange={handleChangeFilter} />
 

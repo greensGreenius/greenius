@@ -4,8 +4,7 @@
 // import { NormalTable } from 'components/common';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
-import { useEffect, useState } from 'react';
-import { getAllLead } from 'api/lead';
+
 import { BRANCH_LIST, COURSE_ENQUIRY_STATUS } from 'services/constants';
 import {
   getJoinAndLeadStatus,
@@ -21,56 +20,11 @@ import './leadList.scss';
 export const LeadList = ({
   onEdit = () => {},
   leadFromList = [],
-  leadstatus = null,
   filterObject = '',
-  courseList = []
+  courseList = [],
+  leadList = [],
+  isLoading = []
 }) => {
-  const [leadList, setLeadList] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-  // const candidateHeader = [
-  //   {
-  //     lable: 'S.no'
-  //   },
-  //   {
-  //     lable: 'Name'
-  //   },
-  //   {
-  //     lable: 'Phone'
-  //   },
-  //   {
-  //     lable: 'Email'
-  //   },
-
-  //   {
-  //     lable: 'Status'
-  //   },
-  //   {
-  //     lable: 'Comment'
-  //   },
-  //   {
-  //     lable: 'Next Follow up'
-  //   },
-  //   {
-  //     lable: 'Action'
-  //   }
-  // ];
-
-  const handleGetCourseList = async () => {
-    try {
-      setLeadList([]);
-      setLoading(true);
-      const leadResList = await getAllLead(leadstatus);
-      console.log('leadResList---', leadResList);
-      setLeadList(leadResList);
-      setLoading(false);
-    } catch (e) {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    handleGetCourseList();
-  }, [leadstatus]);
-
   const handleRenderCouseView = (courses = []) => {
     const data = getCoursebyIdLabel(courseList, courses);
     const firstCourse = data[0];
@@ -102,7 +56,7 @@ export const LeadList = ({
       )}
       {!isLoading &&
         multySearchObjects(leadList, filterObject).map((lead) => (
-          <div className="col-12 ">
+          <div className="col-12 mb-2">
             <div
               className={`card lead-card  ${
                 moment(lead.nextFollUp).isSameOrBefore(new Date()) &&

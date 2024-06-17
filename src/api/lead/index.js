@@ -39,7 +39,6 @@ export const createLead = (body) => {
             where('phone', '==', userReq.phone)
           )
         );
-        console.log('isExists.exists()-------', isExists.empty);
         if (!isExists.empty) {
           Toast({
             type: 'warn',
@@ -73,9 +72,10 @@ export const getAllLead = (leadstatus = null) => {
     try {
       if (isAuthenticated()) {
         // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
-        console.log('leadstatus.length------>', leadstatus);
+
         const whereIn =
           leadstatus !== -1 ? where('leadstatus', '==', leadstatus) : '';
+        console.log('leadstatus.length------>', leadstatus);
         const querySnapshot = await getDocs(
           query(collection(getFirestore(), DB_NAME?.CANDIDATE), whereIn)
         );

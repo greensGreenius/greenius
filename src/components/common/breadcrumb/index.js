@@ -6,11 +6,13 @@ export const Normalbreadcrumb = (props) => {
     className = '',
     title = '',
     btnLabel = '',
-    onBtnClick = () => {}
+    onBtnClick = () => {},
+    count = 0,
+    isCount = true
   } = props;
 
   return (
-    <div className={`page-breadcrumb ${className}`}>
+    <div className={`page-breadcrumb mb-4 ${className}`}>
       {btnLabel && (
         <NormalButton
           className="float-end btn btn-primary"
@@ -20,6 +22,7 @@ export const Normalbreadcrumb = (props) => {
       )}
 
       <h2 className="mb-2 breadcrumb-title">{title}</h2>
+      {isCount && <small className="sub-title">Count {count}</small>}
     </div>
   );
 };

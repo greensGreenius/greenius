@@ -2,6 +2,7 @@ import { Normalbreadcrumb, NormalModal } from 'components/common';
 import { UserFilter, UserList, UserForm } from 'components/pages';
 import { useState, useEffect } from 'react';
 import { getAllUser } from 'api/user';
+import { multySearchObjects } from 'services/helperFunctions';
 
 export const UserPage = () => {
   const [isOpenForm, setIsOpenForm] = useState(false);
@@ -62,6 +63,7 @@ export const UserPage = () => {
         onBtnClick={handleOpenLeadModal}
         title="User"
         btnLabel="Add User"
+        count={multySearchObjects(userList, filterObject).length}
       />
       <UserFilter onChange={handleChangeFilter} />
       <UserList

@@ -14,9 +14,14 @@
 
     &.follow-near{
         background-color: #dc3545;
+        .css-8je8zh-MuiTouchRipple-root{
+            background-color: unset !important;
+            color: #2e7d32 !important;
+        }
         *{
             background-color: #dc3545;
             color: #fff !important;
         }
+        
     }
 }

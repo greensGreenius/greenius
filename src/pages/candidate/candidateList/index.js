@@ -7,6 +7,7 @@ import { CANDIDATE_CLASS_STATUS_LIST } from 'services/constants';
 import { getAllCourse } from 'api/course';
 import { getAllUser } from 'api/user';
 import { getAllBatch } from 'api/batch';
+import { multySearchObjects } from 'services/helperFunctions';
 
 export const CandidatePage = () => {
   const [activeTabe, setActiveTabe] = useState('');
@@ -110,6 +111,7 @@ export const CandidatePage = () => {
         onBtnClick={handleOpenLeadModal}
         title="Candidate"
         btnLabel="Add Candidate"
+        count={multySearchObjects(candidateList, filterObject).length}
       />
       <div className="row">
         <div className="col-12">
