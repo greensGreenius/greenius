@@ -203,3 +203,20 @@ export const candidateComplitePer = (batchList, batchId) => {
     return 0;
   }
 };
+
+export const batchComplitePer = (batch) => {
+  try {
+    if (batch) {
+      const current = moment();
+      const stDate = moment(batch.stDate, 'YYYY-MM-DD');
+      const endDate = moment(batch.endDate, 'YYYY-MM-DD');
+      const complitedDays = current.diff(stDate, 'days');
+      const overDays = endDate.diff(stDate, 'days');
+      console.log('diff-------', complitedDays, overDays);
+
+      return Math.round((complitedDays * 100) / overDays);
+    }
+  } catch (e) {
+    return 0;
+  }
+};

@@ -130,7 +130,7 @@ export const BRANCH_LIST = [
   },
   {
     label: 'Avadi',
-    value: 2
+    value: 3
   }
 ];
 

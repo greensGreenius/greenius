@@ -2,7 +2,8 @@ import moment from 'moment';
 import {
   getIdByLabel,
   getBatchStatus,
-  multySearchObjects
+  multySearchObjects,
+  batchComplitePer
 } from 'services/helperFunctions';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
@@ -25,7 +26,7 @@ export const BatchList = ({
         )
       )}
       {multySearchObjects(allBatchList, filterObject).map((batch) => (
-        <div className="col-md-3">
+        <div className="col-md-3 mb-3">
           <div className="card  batch-card">
             <div className="card-body">
               <h4 className="mb-2 title-batch lh-sm flex-1 me-5">
@@ -67,7 +68,9 @@ export const BatchList = ({
               </div>
               <div className="d-flex mt-4 justify-content-between text-body-tertiary fw-semibold">
                 <p className="mb-2"> Progress</p>
-                <p className="mb-2 text-body-emphasis">100%</p>
+                <p className="mb-2 text-body-emphasis">
+                  {batchComplitePer(batch)}%
+                </p>
               </div>
 
               <div className="progress bg-success-subtle">
@@ -75,8 +78,10 @@ export const BatchList = ({
                   className="progress-bar rounded bg-success"
                   role="progressbar"
                   aria-label="Success example"
-                  style={{ width: '100%' }}
-                  aria-valuenow="25"
+                  style={{
+                    width: batchComplitePer(batch)
+                  }}
+                  aria-valuenow={batchComplitePer(allBatchList, batch?.batchId)}
                   aria-valuemin="0"
                   aria-valuemax="100"
                 />
