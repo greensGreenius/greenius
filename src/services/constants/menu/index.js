@@ -35,6 +35,12 @@ export const MENU = [
     link: '/candidate',
     isShow: true
   }
+  // {
+  //   title: 'My Course',
+  //   icon: 'library_books',
+  //   link: '/myCourse',
+  //   isShow: true
+  // }
 
   // {
   //     title: "User",

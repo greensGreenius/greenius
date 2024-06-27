@@ -2,12 +2,13 @@
 /* eslint-disable no-async-promise-executor */
 import {
   //   setDoc,
-  //   doc,
+  doc,
   addDoc,
   getFirestore,
   collection,
   getDocs,
-  query
+  query,
+  deleteDoc
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { isAuthenticated, jwtDecodeDetails } from 'services/utilities';
@@ -71,6 +72,26 @@ export const getAllCourse = () => {
       resolve(data);
       //   } else {
       //   }
+    } catch (e) {
+      // eslint-disable-next-line no-undef
+      const message = error?.message || 'Something went wrong';
+      Toast({ message, type: 'error' });
+      reject(e);
+      console.error('Error adding document: ', e);
+    }
+  });
+};
+
+export const DeleteCourse = (body) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (isAuthenticated()) {
+        const docRef = await deleteDoc(
+          doc(getFirestore(), DB_NAME?.COURSE, body)
+        );
+        resolve(docRef);
+        Toast({ message: 'Course successfully Deleted' });
+      }
     } catch (e) {
       // eslint-disable-next-line no-undef
       const message = error?.message || 'Something went wrong';

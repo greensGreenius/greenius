@@ -5,8 +5,9 @@ import {
   multySearchObjects,
   batchComplitePer
 } from 'services/helperFunctions';
-import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
+// import IconButton from '@mui/material/IconButton';
+// import EditIcon from '@mui/icons-material/Edit';
+import { NormalButton } from 'components/common';
 import './batch.scss';
 
 export const BatchList = ({
@@ -14,7 +15,8 @@ export const BatchList = ({
   isLoading = false,
   userList = [],
   onEdit = () => {},
-  filterObject = ''
+  filterObject = '',
+  onDelete = () => {}
 }) => {
   return (
     <div className="row">
@@ -25,16 +27,16 @@ export const BatchList = ({
           <h4>No Data Found...</h4>
         )
       )}
-      {multySearchObjects(allBatchList, filterObject).map((batch) => (
+      {multySearchObjects(allBatchList, filterObject).map((batch, i) => (
         <div className="col-md-3 mb-3">
           <div className="card  batch-card">
             <div className="card-body">
               <h4 className="mb-2 title-batch lh-sm flex-1 me-5">
                 {batch.name}
 
-                <IconButton color="success" onClick={() => onEdit(batch)}>
+                {/* <IconButton color="success" onClick={() => onEdit(batch)}>
                   <EditIcon />
-                </IconButton>
+                </IconButton> */}
               </h4>
               <span className="badge badge fs-10 mb-4 badge-success">
                 {getBatchStatus(batch?.status)}
@@ -101,6 +103,18 @@ export const BatchList = ({
                   </span>
                 </p>
               </div>
+            </div>
+            <div className="card-footer text-center">
+              <NormalButton
+                className="btn-sm btn-primary me-2"
+                onClick={() => onEdit(batch)}
+                label="Edit"
+              />
+              <NormalButton
+                className="btn-sm btn-danger"
+                onClick={() => onDelete(batch, i)}
+                label="Delete"
+              />
             </div>
           </div>
         </div>

@@ -1,8 +1,12 @@
 import { NormalTable } from 'components/common';
 import { useEffect, useState } from 'react';
-import { getAllCourse } from 'api/course';
+import { getAllCourse, DeleteCourse } from 'api/course';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Swal from 'sweetalert2';
 
-export const CourseList = () => {
+export const CourseList = ({ onEdit = () => {} }) => {
   const [courseList, setCourseList] = useState([]);
   const courseHeader = [
     {
@@ -28,6 +32,29 @@ export const CourseList = () => {
     handleGetCourseList();
   }, []);
 
+  const handleDelete = (data, i) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await DeleteCourse(data.id);
+        courseList.splice(i, 1);
+        setCourseList([...courseList]);
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Your file has been deleted.',
+          icon: 'success'
+        });
+      }
+    });
+  };
+
   return (
     <div className="row mt-2">
       <div className="col-12">
@@ -39,6 +66,14 @@ export const CourseList = () => {
               <td>{i + 1}</td>
               <td>{data.name}</td>
               <td>{data.price}</td>
+              <td>
+                <IconButton color="success" onClick={() => onEdit(data)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton color="error" onClick={() => handleDelete(data, i)}>
+                  <DeleteIcon />
+                </IconButton>
+              </td>
             </tr>
           )}
         />

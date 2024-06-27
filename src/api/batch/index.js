@@ -9,7 +9,8 @@ import {
   getDocs,
   query,
   updateDoc,
-  where
+  where,
+  deleteDoc
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { isAuthenticated, jwtDecodeDetails } from 'services/utilities';
@@ -135,6 +136,26 @@ export const getAllBatch = () => {
 
       //   } else {
       //   }
+    } catch (e) {
+      // eslint-disable-next-line no-undef
+      const message = error?.message || 'Something went wrong';
+      Toast({ message, type: 'error' });
+      reject(e);
+      console.error('Error adding document: ', e);
+    }
+  });
+};
+
+export const DeleteBatch = (body) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (isAuthenticated()) {
+        const docRef = await deleteDoc(
+          doc(getFirestore(), DB_NAME?.BATCH, body)
+        );
+        resolve(docRef);
+        Toast({ message: 'Course successfully Deleted' });
+      }
     } catch (e) {
       // eslint-disable-next-line no-undef
       const message = error?.message || 'Something went wrong';

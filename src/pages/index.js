@@ -6,3 +6,4 @@ export { BranchPage } from './branch';
 export { CoursePage } from './course';
 export { BatchPage } from './batch';
 export { CandidatePage, CandidateFormPage } from './candidate';
+export { MyCoursePage } from './myCourses';

@@ -36,6 +36,20 @@ const routers = [
   },
   {
     component: 'Adminlayout',
+    path: '/myCourse',
+    auth: true,
+    exact: false,
+    childrens: [
+      {
+        component: 'MyCoursePage',
+        path: '/',
+        auth: true,
+        exact: true
+      }
+    ]
+  },
+  {
+    component: 'Adminlayout',
     path: '/lead',
     auth: true,
     exact: false,

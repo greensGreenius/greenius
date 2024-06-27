@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { STATUS } from 'services/constants';
 import { multySearchObjects } from 'services/helperFunctions';
 import { getAllUser } from 'api/user';
-import { getAllBatch } from 'api/batch';
+import { getAllBatch, DeleteBatch } from 'api/batch';
+import Swal from 'sweetalert2';
 
 export const BatchPage = () => {
   const [isOpenForm, setIsOpenForm] = useState(false);
@@ -71,6 +72,29 @@ export const BatchPage = () => {
     setFilterObject(filterObj);
   };
 
+  const handleDelete = (data, i) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await DeleteBatch(data.id);
+        allBatchList.splice(i, 1);
+        setAllBatchList([...allBatchList]);
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Your file has been deleted.',
+          icon: 'success'
+        });
+      }
+    });
+  };
+
   return (
     <>
       <Normalbreadcrumb
@@ -86,6 +110,7 @@ export const BatchPage = () => {
         userList={userList}
         allBatchList={allBatchList}
         onEdit={handleBatchEdit}
+        onDelete={handleDelete}
         filterObject={filterObject}
       />
 
