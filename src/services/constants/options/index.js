@@ -134,6 +134,25 @@ export const BRANCH_LIST = [
   }
 ];
 
+export const PAY_BANK_LIST = [
+  {
+    label: 'Greens',
+    value: 1
+  },
+  {
+    label: 'Plotel',
+    value: 2
+  },
+  {
+    label: 'Jayashree',
+    value: 3
+  },
+  {
+    label: 'Anvesh',
+    value: 4
+  }
+];
+
 export const YES_NO_LIST = [
   {
     label: 'Yes',

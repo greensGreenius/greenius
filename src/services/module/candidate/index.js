@@ -12,5 +12,12 @@ export const candidateSchemaModule = {
   projectLink: '',
   batchIds: [],
   classStatus: 0,
-  classStart: ''
+  classStart: '',
+  billingInfo: [
+    {
+      payFees: '',
+      payDate: '',
+      payedAccount: null
+    }
+  ]
 };

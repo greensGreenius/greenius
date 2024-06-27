@@ -12,7 +12,8 @@ export {
   WEEK_LIST,
   YES_NO_LIST,
   CLASS_MODE_LIST,
-  CANDIDATE_CLASS_STATUS_LIST
+  CANDIDATE_CLASS_STATUS_LIST,
+  PAY_BANK_LIST
 } from './options';
 
 export { MENU } from './menu';

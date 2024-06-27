@@ -1,11 +1,15 @@
 import { NormalInput, NormalSelect, NormalButton } from 'components/common';
 import { useState, useRef, useEffect } from 'react';
-
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Swal from 'sweetalert2';
 import {
   //   COURSE_ENQUIRY_STATUS_LIST,
   LEAD_TYPE_LIST,
   YES_NO_LIST,
   BRANCH_LIST,
+  PAY_BANK_LIST,
   LEAD_TYPE,
   YES_NO_STATUS,
   STATUS,
@@ -57,7 +61,7 @@ export const CandidateForm = ({
       setIsLoadingFrom(true);
       const candRes = await getCandidateById(candidateId);
       setIsLoadingFrom(false);
-      setCandidateFormObject(candRes);
+      setCandidateFormObject({ ...candidateSchemaModule, ...candRes });
       console.log('userResList--------->', candRes);
     } catch (e) {
       setIsLoadingFrom(false);
@@ -130,11 +134,85 @@ export const CandidateForm = ({
     }
   };
 
+  const handleAddNewBillInfo = () => {
+    candidateFormObject.billingInfo.push({
+      payFees: 0,
+      payDate: '',
+      payedAccount: null
+    });
+    setCandidateFormObject({ ...candidateFormObject });
+  };
+
+  const handleDeleteNewBillInfo = (i) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const candObj = { ...candidateFormObject };
+        if (candObj.billingInfo.length > 1) {
+          candObj.billingInfo.splice(i, 1);
+          if (candObj.billingInfo.length > 0) {
+            candObj.payedfees = candObj.billingInfo.reduce(
+              (preValue, currentValue) =>
+                Number(preValue) + Number(currentValue.payFees),
+              0
+            );
+          }
+          setCandidateFormObject({ ...candObj });
+        }
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Your file has been deleted.',
+          icon: 'success'
+        });
+      }
+    });
+  };
+
+  const handleInputBillingChange = (event, i) => {
+    const {
+      target: { value, name }
+    } = event;
+
+    const candObj = { ...candidateFormObject };
+
+    candObj.billingInfo[i][name] = value;
+    if (candObj.billingInfo.length > 0) {
+      candObj.payedfees = candObj.billingInfo.reduce(
+        (preValue, currentValue) =>
+          Number(preValue) + Number(currentValue.payFees),
+        0
+      );
+    }
+    setCandidateFormObject({
+      ...candObj
+    });
+    simpleValidator.current.purgeFields();
+  };
+
+  // const handleGetPayFees = () => {
+  //   const candObj = { ...candidateFormObject };
+  //   if (candObj.billingInfo.length > 0) {
+  //     candObj.payedfees = candObj.billingInfo.reduce(
+  //       (preValue, currentValue) =>
+  //         Number(preValue) + Number(currentValue.payFees),
+  //       0
+  //     );
+  //     return candObj.payedfees;
+  //   }
+  //   return 0;
+  // };
   return (
     <div className="row">
       {!isLoadingFrom ? (
         <div className="col-md-12">
-          <div className="card">
+          <div className="card mb-4">
             <div className="card-body">
               <div className="row">
                 <div className="col-md-12 mb-2">
@@ -360,6 +438,7 @@ export const CandidateForm = ({
                       <NormalInput
                         label="Payed Fees"
                         type="number"
+                        disabled
                         onChange={handleInputChange}
                         value={candidateFormObject.payedfees}
                         name="payedfees"
@@ -383,20 +462,26 @@ export const CandidateForm = ({
                         name="payedfees"
                       />
                     </div>
-                    <div className="col-md-3">
-                      <NormalInput
-                        label="Fees due date"
-                        type="date"
-                        onChange={handleInputChange}
-                        value={candidateFormObject.feesDueDate}
-                        name="feesDueDate"
-                        errorMessage={simpleValidator.current.message(
-                          'Fees due date',
-                          candidateFormObject.feesDueDate,
-                          'required'
-                        )}
-                      />
-                    </div>
+                    {handleGetPendingFees(
+                      candidateFormObject.totfees,
+                      candidateFormObject.payedfees
+                    ) !== 0 && (
+                      <div className="col-md-3">
+                        <NormalInput
+                          label="Fees due date"
+                          type="date"
+                          onChange={handleInputChange}
+                          value={candidateFormObject.feesDueDate}
+                          name="feesDueDate"
+                          errorMessage={simpleValidator.current.message(
+                            'Fees due date',
+                            candidateFormObject.feesDueDate,
+                            'required'
+                          )}
+                        />
+                      </div>
+                    )}
+
                     <div className="col-md-3">
                       <NormalSelect
                         label="Project Status"
@@ -493,7 +578,7 @@ export const CandidateForm = ({
                       </div>
                     )}
 
-                    <div className="col-md-12">
+                    {/* <div className="col-md-12">
                       <NormalButton
                         className="me-2 btn-danger"
                         disabled={isLoadingFrom}
@@ -509,8 +594,108 @@ export const CandidateForm = ({
                           candidateId !== 'new' ? 'Update' : 'Save'
                         } Changes`}
                       />
+                    </div> */}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-md-12 mb-2">
+                  <h5>Billing Info</h5>
+                </div>
+                {candidateFormObject?.billingInfo?.map((billInfo, i) => (
+                  <div className="col-md-12" key={billInfo.payDate}>
+                    <div className="row">
+                      <div className="col-md-3">
+                        <NormalInput
+                          label="Pay Fees"
+                          onChange={(e) => handleInputBillingChange(e, i)}
+                          value={billInfo.payFees}
+                          name="payFees"
+                          type="number"
+                          errorMessage={simpleValidator.current.message(
+                            'Pay Fees',
+                            billInfo.payFees,
+                            'required'
+                          )}
+                        />
+                      </div>
+                      <div className="col-md-3">
+                        <NormalInput
+                          label="Payed Date"
+                          onChange={(e) => handleInputBillingChange(e, i)}
+                          value={billInfo.payDate}
+                          name="payDate"
+                          type="date"
+                          errorMessage={simpleValidator.current.message(
+                            'Payed Date',
+                            billInfo.payDate,
+                            'required'
+                          )}
+                        />
+                      </div>
+
+                      <div className="col-md-3">
+                        <NormalSelect
+                          label="Payed Account"
+                          name="payedAccount"
+                          option={PAY_BANK_LIST}
+                          onChange={(e) => handleInputBillingChange(e, i)}
+                          value={billInfo.payedAccount}
+                          errorMessage={simpleValidator.current.message(
+                            'Payed Account',
+                            billInfo.payedAccount,
+                            'required'
+                          )}
+                        />
+                      </div>
+                      <div className="col-md-3">
+                        <IconButton
+                          color="success"
+                          className="mt-4"
+                          onClick={handleAddNewBillInfo}
+                        >
+                          <AddIcon />
+                        </IconButton>
+                        <IconButton
+                          color="error"
+                          className="mt-4"
+                          title={`${
+                            candidateFormObject?.billingInfo.length === 1
+                              ? 'Min Need 1'
+                              : ''
+                          }`}
+                          disabled={
+                            candidateFormObject?.billingInfo.length === 1
+                          }
+                          onClick={() => handleDeleteNewBillInfo(i)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </div>
                     </div>
                   </div>
+                ))}
+                <div className="col-md-12">
+                  <NormalButton
+                    className="me-2 btn-danger"
+                    disabled={isLoadingFrom}
+                    label="Cancel"
+                    color="primary"
+                    onClick={() => navigate('/candidate')}
+                  />
+                  <NormalButton
+                    className="me-2 btn-primary"
+                    //   isLoader={isLoadingFrom}
+                    onClick={handleleadSubmit}
+                    label={`${
+                      candidateId !== 'new' ? 'Update' : 'Save'
+                    } Changes`}
+                  />
                 </div>
               </div>
             </div>
