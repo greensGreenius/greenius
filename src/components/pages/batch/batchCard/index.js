@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import moment from 'moment';
 import {
   getIdByLabel,
@@ -8,6 +11,7 @@ import {
 // import IconButton from '@mui/material/IconButton';
 // import EditIcon from '@mui/icons-material/Edit';
 import { NormalButton } from 'components/common';
+import { useNavigate } from 'react-router-dom';
 import './batch.scss';
 
 export const BatchList = ({
@@ -18,6 +22,12 @@ export const BatchList = ({
   filterObject = '',
   onDelete = () => {}
 }) => {
+  const navigate = useNavigate();
+
+  const handleGoDetailPage = (batchId) => {
+    navigate(`/batch/${batchId}`);
+  };
+
   return (
     <div className="row">
       {isLoading && allBatchList.length === 0 ? (
@@ -31,7 +41,10 @@ export const BatchList = ({
         <div className="col-md-3 mb-3">
           <div className="card  batch-card">
             <div className="card-body">
-              <h4 className="mb-2 title-batch lh-sm flex-1 me-5">
+              <h4
+                className="mb-2 title-batch lh-sm flex-1 me-5"
+                onClick={() => handleGoDetailPage(batch.id)}
+              >
                 {batch.name}
 
                 {/* <IconButton color="success" onClick={() => onEdit(batch)}>

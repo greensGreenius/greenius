@@ -1,0 +1,21 @@
+.courseDetailContiner{
+    .titleCourseList{
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+    .subtitleCourseList{
+        font-size: .7rem;
+        font-weight: 400;
+    }
+    .listGroupIteam{
+        font-size: .8rem;
+        font-weight: 500; 
+        cursor: pointer;
+        text-decoration: unset;
+        color: var(--bs-body-color);
+            &.active{
+            color: var(--primary-bg) !important;
+        }
+    }
+}

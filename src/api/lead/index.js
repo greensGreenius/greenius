@@ -207,3 +207,41 @@ export const updateLead = (body, id) => {
     }
   });
 };
+
+export const getBatchIdByCandate = (batchId) => {
+  getAuth();
+  //   const user = auth.currentUser;
+  return new Promise(async (resolve, reject) => {
+    try {
+      //   if (isAuthenticated()) {
+      // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
+
+      const querySnapshot = await getDocs(
+        query(
+          collection(getFirestore(), DB_NAME?.CANDIDATE),
+          where('batchId', '==', batchId)
+        )
+      );
+      console.log(
+        ' candidateQuerySnapshot?.size---------',
+        querySnapshot?.size
+      );
+      const data = [];
+      querySnapshot.forEach(async (candidateDoc) => {
+        data.push({
+          ...candidateDoc.data(),
+          id: candidateDoc.id
+        });
+      });
+      resolve(data);
+      //   } else {
+      //   }
+    } catch (e) {
+      // eslint-disable-next-line no-undef
+      const message = error?.message || 'Something went wrong';
+      Toast({ message, type: 'error' });
+      reject(e);
+      console.error('Error adding document: ', e);
+    }
+  });
+};

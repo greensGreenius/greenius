@@ -2,7 +2,8 @@
 import {
   COURSE_ENQUIRY_STATUS,
   LEAD_TYPE,
-  USER_TYPE
+  USER_TYPE,
+  EXIST_LOCAL_STORAGE
 } from 'services/constants';
 import moment from 'moment';
 
@@ -219,4 +220,18 @@ export const batchComplitePer = (batch) => {
   } catch (e) {
     return 0;
   }
+};
+
+export const getCurentUserTrainerId = () => {
+  let curentUser = getStorage(EXIST_LOCAL_STORAGE.CURRENT_USER);
+  if (curentUser) {
+    curentUser = JSON.parse(curentUser);
+
+    return [USER_TYPE.TRAINER, USER_TYPE.SUPPER_ADMIN].includes(
+      curentUser.userType
+    )
+      ? curentUser.userId
+      : '';
+  }
+  return '';
 };

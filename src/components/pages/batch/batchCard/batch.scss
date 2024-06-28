@@ -5,9 +5,14 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         font-size: 1.2rem;
+        cursor: pointer;
+        &:hover {
+            --bs-text-opacity: 1;
+            color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity)) !important;
+        }
     }
-    .text-batch-qu{
-        color: #31374A;
+    .text-batch-qu {
+        color: #31374a;
     }
     .progress {
         height: 5px;

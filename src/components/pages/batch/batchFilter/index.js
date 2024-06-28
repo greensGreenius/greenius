@@ -1,12 +1,16 @@
 import { NormalSearch, NormalSelect, NormalButton } from 'components/common';
-import { WEEK_LIST } from 'services/constants';
+import { WEEK_LIST, USER_TYPE } from 'services/constants';
+import {
+  userGetByRole,
+  getCurentUserTrainerId
+} from 'services/helperFunctions';
 import { useState } from 'react';
 
 export const BatchFilter = ({ onChange = () => {}, userList = [] }) => {
   const [filterObject, setFilterObject] = useState({
     name: '',
     classDays: '',
-    trainerId: ''
+    trainerId: getCurentUserTrainerId()
   });
 
   const handleInputChange = (event) => {
@@ -55,7 +59,7 @@ export const BatchFilter = ({ onChange = () => {}, userList = [] }) => {
       </div>
       <div className="col-md-3">
         <NormalSelect
-          option={userList}
+          option={userGetByRole(userList, USER_TYPE.TRAINER)}
           isLabel={false}
           name="trainerId"
           value={filterObject.trainerId}

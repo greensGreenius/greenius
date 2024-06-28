@@ -41,8 +41,14 @@ const routers = [
     exact: false,
     childrens: [
       {
-        component: 'MyCoursePage',
+        component: 'MyCourseListPage',
         path: '/',
+        auth: true,
+        exact: true
+      },
+      {
+        component: 'MyCourseDetailPage',
+        path: '/detail',
         auth: true,
         exact: true
       }
@@ -99,6 +105,12 @@ const routers = [
       {
         component: 'BatchPage',
         path: '',
+        auth: true,
+        exact: true
+      },
+      {
+        component: 'BatchDetailPage',
+        path: '/:batchId',
         auth: true,
         exact: true
       }

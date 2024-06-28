@@ -1,11 +1,20 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/alt-text */
+import { useNavigate } from 'react-router-dom';
 import './myCourseCard.scss';
 
 export const MyCourseCard = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/myCourse/detail');
+  };
+
   return (
     <div className="row g-4 my-course-content">
       <div className="col-sm-6 col-lg-4 col-xl-3">
-        <div className="card shadow my-course-card h-100">
+        <div className="card shadow my-course-card h-100" onClick={handleClick}>
           <img
             className="card-img-top"
             src="https://www.greenstechnologys.in/_next/image?url=%2Fimages%2Fcourses%2F4by3%2F07.jpg&w=640&q=75"

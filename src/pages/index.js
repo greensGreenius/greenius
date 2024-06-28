@@ -4,6 +4,6 @@ export { LoginPage, ForgotPasswordPage } from './auth';
 export { LeadPage } from './leads';
 export { BranchPage } from './branch';
 export { CoursePage } from './course';
-export { BatchPage } from './batch';
+export { BatchPage, BatchDetailPage } from './batch';
 export { CandidatePage, CandidateFormPage } from './candidate';
-export { MyCoursePage } from './myCourses';
+export { MyCourseListPage, MyCourseDetailPage } from './myCourses';
