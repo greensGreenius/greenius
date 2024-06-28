@@ -173,6 +173,10 @@ export const multySearchObjects = (array = [], searchCriteria = {}) => {
   }
 };
 
+export const getRandomThreeDigitNumber = () => {
+  return `${new Date().getSeconds()}-${Math.floor(Math.random() * 900) + 100}`;
+};
+
 export const userGetByRole = (userList, role) => {
   return userList
     .map((data) => {

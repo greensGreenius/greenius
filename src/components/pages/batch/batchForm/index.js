@@ -5,7 +5,7 @@ import {
   NormalButton,
   NormalCheckbox
 } from 'components/common';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { batchSchemaModule } from 'services/module';
 import {
@@ -14,13 +14,16 @@ import {
   STATUS,
   WEEK_LIST
 } from 'services/constants';
-import { userGetByRole } from 'services/helperFunctions';
+import {
+  userGetByRole,
+  getRandomThreeDigitNumber
+} from 'services/helperFunctions';
 import { createBatch, updateBatch } from 'api/batch';
 
 export const BatchForm = ({
   userList = [],
   onSucess = () => {},
-  editBatchObject = {}
+  editBatchObject = null
 }) => {
   const simpleValidator = useRef(
     new SimpleReactValidator({ className: 'error-message' })
@@ -31,6 +34,15 @@ export const BatchForm = ({
   });
   const [isLoadingFrom, setIsLoadingFrom] = useState(false);
   const [, forceUpdate] = useState();
+
+  useEffect(() => {
+    if (!batchFormObject.id) {
+      setBatchFormObject({
+        ...batchFormObject,
+        name: `B-${getRandomThreeDigitNumber()}`
+      });
+    }
+  }, []);
 
   const handleInputChange = (event) => {
     const {
@@ -102,6 +114,7 @@ export const BatchForm = ({
         <NormalInput
           label="Enter Name"
           onChange={handleInputChange}
+          readOnly
           value={batchFormObject.name}
           name="name"
           errorMessage={simpleValidator.current.message(
