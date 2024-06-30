@@ -1,0 +1,25 @@
+.lead-status-count-section {
+    .bullet-item {
+        padding: 7px;
+
+        border-radius: 4px;
+        &.interested {
+            background-color: #008ffb;
+        }
+        &.joined {
+            background-color: #00e396;
+        }
+        &.processing {
+            background-color: #feb019;
+        }
+        &.requested {
+            background-color: #ff4560;
+        }
+        &.not-interested {
+            background-color: #775dd0;
+        }
+        &.not-responding {
+            background-color: #008ffb;
+        }
+    }
+}

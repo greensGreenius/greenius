@@ -22,7 +22,7 @@ const routers = [
 
   {
     component: 'Adminlayout',
-    path: 'home',
+    path: '/home',
     auth: true,
     exact: false,
     childrens: [

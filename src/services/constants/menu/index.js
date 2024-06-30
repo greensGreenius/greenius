@@ -1,10 +1,10 @@
 export const MENU = [
-  // {
-  //   title: 'Home',
-  //   icon: 'home',
-  //   link: '/home',
-  //   isShow: true
-  // },
+  {
+    title: 'Home',
+    icon: 'home',
+    link: '/home',
+    isShow: true
+  },
   {
     title: 'Lead',
     icon: 'contact_emergency',
@@ -19,7 +19,7 @@ export const MENU = [
   },
   {
     title: 'Course',
-    icon: 'person',
+    icon: 'account_balance',
     link: '/course',
     isShow: true
   },

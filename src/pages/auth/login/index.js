@@ -44,7 +44,7 @@ export const LoginPage = () => {
             message: 'You have been sucessfully login',
             title: 'Success!'
           });
-          navigate('/lead');
+          navigate('/home');
         }
       } else {
         validator.current.showMessages();

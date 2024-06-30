@@ -1,5 +1,9 @@
 import { NormalSearch, NormalSelect, NormalButton } from 'components/common';
-import { LEAD_TYPE_LIST, BRANCH_LIST } from 'services/constants';
+import {
+  LEAD_TYPE_LIST,
+  BRANCH_LIST,
+  DEMO_STATUS_LIST
+} from 'services/constants';
 import { useState } from 'react';
 
 export const LeadFilter = ({ onChange = () => {}, leadFromList = [] }) => {
@@ -7,7 +11,8 @@ export const LeadFilter = ({ onChange = () => {}, leadFromList = [] }) => {
     name: '',
     branch: '',
     leadFrom: '',
-    leadType: ''
+    leadType: '',
+    demoStatus: ''
   });
 
   const handleInputChange = (event) => {
@@ -30,6 +35,7 @@ export const LeadFilter = ({ onChange = () => {}, leadFromList = [] }) => {
       name: '',
       branch: '',
       leadFrom: '',
+      demoStatus: '',
       leadType: ''
     };
     onChange(filterValue);
@@ -37,7 +43,7 @@ export const LeadFilter = ({ onChange = () => {}, leadFromList = [] }) => {
   };
   return (
     <div className="row">
-      <div className="col-md-4">
+      <div className="col-md-3">
         <NormalSearch
           placeholder="Name"
           name="name"
@@ -53,6 +59,16 @@ export const LeadFilter = ({ onChange = () => {}, leadFromList = [] }) => {
           value={filterObject.branch}
           onChange={handleInputChange}
           option={BRANCH_LIST}
+        />
+      </div>
+      <div className="col-md-2">
+        <NormalSelect
+          isLabel={false}
+          label="Demo Status"
+          name="demoStatus"
+          value={filterObject.demoStatus}
+          onChange={handleInputChange}
+          option={DEMO_STATUS_LIST}
         />
       </div>
       <div className="col-md-2">
@@ -75,7 +91,7 @@ export const LeadFilter = ({ onChange = () => {}, leadFromList = [] }) => {
           label="Lead Type"
         />
       </div>
-      <div className="col-md-2">
+      <div className="col-md-1">
         {/* <NormalButton label="Search" /> */}
         <NormalButton
           className=" ms-3 btn btn-secondary"
