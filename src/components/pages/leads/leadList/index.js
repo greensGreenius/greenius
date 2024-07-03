@@ -156,7 +156,7 @@ export const LeadList = ({
                       </div>
                       <div className="col-md-12">
                         <span className="text-gray">Comment</span>
-                        {lead.comments.map(({ notes }) => (
+                        {lead.comments?.map(({ notes }) => (
                           <span
                             className="notes"
                             dangerouslySetInnerHTML={{ __html: notes }}

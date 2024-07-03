@@ -1,5 +1,5 @@
 import { Normalbreadcrumb, NormalModal } from 'components/common';
-import { MyCourseCard, CourseForm } from 'components/pages';
+import { MyCourseCard, RecordingClassesFrom } from 'components/pages';
 import { useState } from 'react';
 
 export const MyCourseListPage = () => {
@@ -19,10 +19,10 @@ export const MyCourseListPage = () => {
       <MyCourseCard />
       <NormalModal
         toggle={handleOpenLeadModal}
-        title="Add Lead"
+        title="Add Recording Class"
         isShow={isOpenForm}
       >
-        <CourseForm onSucess={handleOpenLeadModal} />
+        <RecordingClassesFrom onSucess={handleOpenLeadModal} />
       </NormalModal>
     </>
   );

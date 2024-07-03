@@ -1,14 +1,22 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-shadow */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
+// import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
-import OutlinedInput from '@mui/material/OutlinedInput';
+// import Select from '@mui/material/Select';
+// import Checkbox from '@mui/material/Checkbox';
+// import OutlinedInput from '@mui/material/OutlinedInput';
+// import { NormalInput } from 'components/common';
+// import ListSubheader from '@mui/material/ListSubheader';
+// import { multySearchObjects } from 'services/helperFunctions';
+import Select from 'react-select';
 
 export function NormalSelect(props) {
+  // const [filterObject, setFilterObject] = React?.useState({
+  //   label: ''
+  // });
   const {
     label = '',
     option = [
@@ -24,25 +32,36 @@ export function NormalSelect(props) {
     name = '',
     readOnly = false,
     disabled = false,
-    size = 'small',
+    // size = 'small',
     isLabel = true,
     isLoading = false
   } = props;
   const [selectValue, setSelectValue] = React.useState('');
   const [multySelectValue, setMultySelectValue] = React.useState([]);
 
-  const handleChange = (event) => {
-    const {
-      target: { value = '' }
-    } = event;
+  const handleChange = (event, name) => {
+    const { value = '' } = event;
     if (multiple) {
-      const val = typeof value === 'string' ? value.split(',') : value;
-      setMultySelectValue(val);
+      // const val = typeof value === 'string' ? value.split(',') : value;
+      console.log('val------', event);
+      setMultySelectValue(event);
+      const select = {
+        target: {
+          value: event.map(({ value }) => value),
+          name
+        }
+      };
+      onChange(select);
     } else {
-      console.log('-----', value);
       setSelectValue(String(value));
+      const select = {
+        target: {
+          value,
+          name
+        }
+      };
+      onChange(select);
     }
-    onChange(event);
   };
 
   React.useEffect(() => {
@@ -57,7 +76,9 @@ export function NormalSelect(props) {
 
   React.useEffect(() => {
     if (multiple) {
-      const val = typeof value === 'string' ? value.split(',') : value;
+      const val = value.map((val) => {
+        return option.find(({ value }) => value === val);
+      });
       setMultySelectValue(val);
     } else {
       console.log('-----', value);
@@ -65,35 +86,52 @@ export function NormalSelect(props) {
     }
   }, [value]);
 
+  // const handleInputChange = (event) => {
+  //   const {
+  //     target: { value, checked, type, name }
+  //   } = event;
+
+  //   const filterValue = {
+  //     ...filterObject,
+  //     [name]: type === 'checkbox' ? checked : value
+  //   };
+
+  //   setFilterObject(filterValue);
+  // };
+
   // eslint-disable-next-line consistent-return
-  const handleRenderValue = () => {
-    if (multiple) {
-      if (multySelectValue.length === 0) {
-        return !isLoading ? (
-          <em>{`Select ${label}`}</em>
-        ) : (
-          <em>{`Loading}`}</em>
-        );
-      }
+  // const handleRenderValue = () => {
+  //   if (multiple) {
+  //     if (multySelectValue.length === 0) {
+  //       return !isLoading ? (
+  //         <em>{`Select ${label}`}</em>
+  //       ) : (
+  //         <em>{`Loading}`}</em>
+  //       );
+  //     }
 
-      if (option.length > 0) {
-        return multySelectValue
-          .map((data) => option.find(({ value }) => value === data)?.label)
-          .join(', ');
-      }
-    } else {
-      if (selectValue.length === 0) {
-        return !isLoading ? (
-          <em>{`Select ${label}`}</em>
-        ) : (
-          <em>{`Loading}`}</em>
-        );
-      }
+  //     if (option.length > 0) {
+  //       return multySelectValue
+  //         .map((data) => option.find(({ value }) => value === data)?.label)
+  //         .join(', ');
+  //     }
+  //   } else {
+  //     if (selectValue.length === 0) {
+  //       return !isLoading ? (
+  //         <em>{`Select ${label}`}</em>
+  //       ) : (
+  //         <em>{`Loading}`}</em>
+  //       );
+  //     }
 
-      return option.find(({ value }) => String(value) === String(selectValue))
-        ?.label;
-    }
-  };
+  //     return option.find(({ value }) => String(value) === String(selectValue))
+  //       ?.label;
+  //   }
+  // };
+
+  // const handleKeyDown = (event) => {
+  //   event.stopPropagation();
+  // };
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -104,14 +142,27 @@ export function NormalSelect(props) {
           : isLabel && (
               <InputLabel id="demo-simple-select-label">{label}</InputLabel>
             )}
-
         <Select
+          name={name}
+          value={
+            multiple
+              ? multySelectValue
+              : option?.find(({ value = '' }) => value === selectValue)
+          }
+          isMulti={multiple}
+          onChange={(e) => handleChange(e, name)}
+          readOnly={readOnly}
+          disabled={disabled || isLoading}
+          options={option}
+        />
+        {/* <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={multiple ? multySelectValue : selectValue}
           label={label}
           multiple={multiple}
           displayEmpty
+          onKeyDown={handleKeyDown}
           name={name}
           onChange={handleChange}
           readOnly={readOnly}
@@ -129,15 +180,26 @@ export function NormalSelect(props) {
           }
           // MenuProps={MenuProps}
         >
-          {option?.map((data) => (
-            <MenuItem key={data.value} value={data.value}>
+          <ListSubheader value="search" onKeyDown={handleKeyDown}>
+            <NormalInput
+              name="label"
+              value={filterObject.label}
+              onChange={handleInputChange}
+            />
+          </ListSubheader>
+          {multySearchObjects(option, filterObject)?.map((data) => (
+            <MenuItem
+              key={data.value}
+              value={data.value}
+              onKeyDown={handleKeyDown}
+            >
               {multiple && (
                 <Checkbox checked={multySelectValue.indexOf(data.value) > -1} />
               )}
               {data.label}
             </MenuItem>
           ))}
-        </Select>
+        </Select> */}
         {!!errorMessage && (
           <div className="form-text text-danger">{errorMessage}</div>
         )}

@@ -19,7 +19,7 @@ export const BatchDetailPage = () => {
   const [filterObject, setFilterObject] = useState({});
 
   const handleOpenLeadModal = () => {
-    navigate('/candidate/new');
+    navigate('/myCourse');
   };
 
   const handleGetCandidateList = async () => {
@@ -42,7 +42,6 @@ export const BatchDetailPage = () => {
         label: name
       }));
       setCourseList(list);
-      console.log('userResList--------->', list);
     } catch (e) {
       console.log('e--------->', e);
     }
@@ -95,8 +94,8 @@ export const BatchDetailPage = () => {
     <>
       <Normalbreadcrumb
         onBtnClick={handleOpenLeadModal}
-        title="Candidate"
-        btnLabel="Add Candidate"
+        title="Batch Details"
+        btnLabel="Add Record Class"
         count={multySearchObjects(candidateList, filterObject).length}
       />
 

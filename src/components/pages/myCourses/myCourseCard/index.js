@@ -1,19 +1,33 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/alt-text */
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+import { NormalTable } from 'components/common';
 import './myCourseCard.scss';
 
 export const MyCourseCard = () => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/myCourse/detail');
-  };
+  // const navigate = useNavigate();
+  const courseHeader = [
+    {
+      lable: 'S.no'
+    },
+    {
+      lable: 'TopiC'
+    },
+    {
+      lable: 'Class Link'
+    },
+    {
+      lable: 'Action'
+    }
+  ];
+  // const handleClick = () => {
+  //   navigate('/myCourse/detail');
+  // };
 
   return (
     <div className="row g-4 my-course-content">
-      <div className="col-sm-6 col-lg-4 col-xl-3">
+      {/* <div className="col-sm-6 col-lg-4 col-xl-3">
         <div className="card shadow my-course-card h-100" onClick={handleClick}>
           <img
             className="card-img-top"
@@ -38,13 +52,30 @@ export const MyCourseCard = () => {
                 <span className="material-icons me-1">translate</span>
                 Tamil
               </span>
-              {/* <span className="h6 fw-light mb-0">
-                <i className="far fa-calendar-alt text-orange me-2" />
-                90 Days
-              </span> */}
             </div>
           </div>
         </div>
+      </div> */}
+      <div className="col-12">
+        <NormalTable
+          rowData={[]}
+          columnData={courseHeader}
+          renderItem={(data, i) => (
+            <tr key={i}>
+              <td>{i + 1}</td>
+              <td>{data.name}</td>
+              <td>{data.price}</td>
+              <td>
+                {/* <IconButton color="success" onClick={() => onEdit(data)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton color="error" onClick={() => handleDelete(data, i)}>
+                  <DeleteIcon />
+                </IconButton> */}
+              </td>
+            </tr>
+          )}
+        />
       </div>
     </div>
   );
