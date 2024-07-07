@@ -132,9 +132,9 @@ export const candidateLogin = (body) => {
       const otpCode = generateOTP();
 
       const emialBody = {
-        name: 'Anvesh',
+        name: data.name,
         subject: 'User Login otp verification',
-        email: 'kb.anvesh1996@gmail.com',
+        email: data?.email,
         otpCode
       };
       await candidateSendLoginOtp(emialBody);
