@@ -183,12 +183,6 @@ export const updateLead = (body, id) => {
           ]
         };
         delete userReq.id;
-        console.log(id);
-
-        //   let {
-        //     user_id,
-        //     userObj: { first_name, last_name }
-        //   } = jwtDecodeDetails();
         const docRef = await updateDoc(
           doc(getFirestore(), DB_NAME.CANDIDATE, id),
           userReq
@@ -199,6 +193,42 @@ export const updateLead = (body, id) => {
       }
     } catch (e) {
       console.error('Error adding document: ', e);
+      // eslint-disable-next-line no-undef
+      const message = error?.message || 'Something went wrong';
+      Toast({ message, type: 'error' });
+      reject(e);
+      console.error('Error adding document: ', e);
+    }
+  });
+};
+
+export const updateByCandidateLead = (body, id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (isAuthenticated()) {
+        const userReq = {
+          ...body,
+          updatedBy: [
+            ...body.updatedBy,
+            {
+              name: body?.name,
+              userId: id,
+              date: new Date().toISOString()
+            }
+          ]
+        };
+        delete userReq.id;
+        console.log('---------', userReq);
+        const docRef = await updateDoc(
+          doc(getFirestore(), DB_NAME.CANDIDATE, id),
+          userReq
+        );
+        resolve(docRef);
+        // resolve(docRef);
+        Toast({ message: 'Profile Update successfully' });
+      }
+    } catch (e) {
+      console.log('Error adding document: ', e);
       // eslint-disable-next-line no-undef
       const message = error?.message || 'Something went wrong';
       Toast({ message, type: 'error' });

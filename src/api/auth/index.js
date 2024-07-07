@@ -166,9 +166,10 @@ export const candidateLoginOtpVerify = (body) => {
         ) {
           const candidateObj = {
             ...enquiryDocSnap.data(),
-            userId: enquiryDocSnap.data().id,
+            userId: enquiryDocSnap.id,
             userType: USER_TYPE.CANDIDATE
           };
+          console.log('enquiryDocSnap.data().id-------', enquiryDocSnap.id);
           candidateObj.isOtpVerified = true;
           delete candidateObj.otpCode;
           await updateDoc(

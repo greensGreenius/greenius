@@ -10,3 +10,4 @@ export {
   RecordingClassesFrom
 } from './myCourses';
 export { EnrollmentCount, LeadStatusDiscover } from './home';
+export { CandidateProfileForm } from './profile';

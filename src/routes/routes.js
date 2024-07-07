@@ -6,7 +6,7 @@ const routers = [
     exact: false,
     childrens: [
       {
-        component: 'LoginPage',
+        component: 'WhoIam',
         path: '/',
         auth: false,
         exact: true
@@ -88,6 +88,20 @@ const routers = [
     childrens: [
       {
         component: 'UserPage',
+        path: '',
+        auth: true,
+        exact: true
+      }
+    ]
+  },
+  {
+    component: 'Adminlayout',
+    path: '/profile',
+    auth: true,
+    exact: false,
+    childrens: [
+      {
+        component: 'ProfilePage',
         path: '',
         auth: true,
         exact: true

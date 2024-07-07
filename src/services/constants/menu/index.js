@@ -52,6 +52,13 @@ export const MENU = [
     link: '/myCourse',
     isShow: true,
     userType: [USER_TYPE.CANDIDATE]
+  },
+  {
+    title: 'My Profile',
+    icon: 'person',
+    link: '/profile',
+    isShow: true,
+    userType: [USER_TYPE.CANDIDATE]
   }
 
   // {

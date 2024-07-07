@@ -36,7 +36,7 @@ export const OTpForm = ({ candidateData }) => {
         if (userLoginRes?.isError) {
           setErrorMessage(userLoginRes?.message);
         } else {
-          navigate('/home', { replace: true });
+          navigate('/myCourse', { replace: true });
         }
         console.log('userLoginRes----------', JSON.stringify(userLoginRes));
 

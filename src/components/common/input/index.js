@@ -10,6 +10,7 @@ export const NormalInput = (props) => {
     placeholder = '',
     label = '',
     errorMessage = '',
+    hintText = '',
     // materialUi = true,
     // maxRows = 2,
     outlinedInput = true,
@@ -39,6 +40,9 @@ export const NormalInput = (props) => {
             classes={readOnly ? { root: 'Mui-disabled' } : {}}
             size={size}
           />
+        )}
+        {!!hintText && (
+          <small className="form-text text-muted">{hintText}</small>
         )}
         {!!errorMessage && (
           <div className="form-text text-danger">{errorMessage}</div>
