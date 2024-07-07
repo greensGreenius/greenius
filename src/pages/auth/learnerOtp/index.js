@@ -38,13 +38,6 @@ export const OTpForm = ({ candidateData }) => {
         } else {
           navigate('/myCourse', { replace: true });
         }
-        console.log('userLoginRes----------', JSON.stringify(userLoginRes));
-
-        // if (userLoginRes?.isError) {
-
-        // } else {
-
-        // }
       } else {
         validator.current.showMessages();
         forceUpdate(1);
