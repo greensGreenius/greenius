@@ -5,9 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import learning from 'assets/img/learning.png';
 import trainear from 'assets/img/trainear.png';
 import './who-i-am.scss';
+import { useEffect } from 'react';
 
 export const WhoIam = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   return (
     <div className="row mb-3  mt-5">
