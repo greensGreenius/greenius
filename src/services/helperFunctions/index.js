@@ -15,6 +15,11 @@ export const getStorage = (name = '') => {
   return localStorage.getItem(name);
 };
 
+export function generateOTP() {
+  // Generate a random 4-digit number
+  return Math.floor(1000 + Math.random() * 9000);
+}
+
 export const removeStorage = (name = '') => {
   if (name) {
     localStorage.removeItem(name);

@@ -1,11 +1,13 @@
+/* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/alt-text */
 // import { useNavigate } from 'react-router-dom';
 import { NormalTable } from 'components/common';
 import './myCourseCard.scss';
+import moment from 'moment';
 
-export const MyCourseCard = () => {
+export const MyCourseCard = ({ recordingClass = [] }) => {
   // const navigate = useNavigate();
   const courseHeader = [
     {
@@ -58,14 +60,20 @@ export const MyCourseCard = () => {
       </div> */}
       <div className="col-12">
         <NormalTable
-          rowData={[]}
+          rowData={recordingClass}
           columnData={courseHeader}
           renderItem={(data, i) => (
             <tr key={i}>
               <td>{i + 1}</td>
-              <td>{data.name}</td>
-              <td>{data.price}</td>
+              <td>{data.topic}</td>
               <td>
+                <a href={data.recClassLink} target="_blank">
+                  View Class
+                </a>
+              </td>
+              <td>{moment(data.date).format('DD MMM YYYY')}</td>
+              <td>
+                {}
                 {/* <IconButton color="success" onClick={() => onEdit(data)}>
                   <EditIcon />
                 </IconButton>

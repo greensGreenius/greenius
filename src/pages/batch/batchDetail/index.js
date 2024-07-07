@@ -19,7 +19,7 @@ export const BatchDetailPage = () => {
   const [filterObject, setFilterObject] = useState({});
 
   const handleOpenLeadModal = () => {
-    navigate('/myCourse');
+    navigate(`/batch/recording/${batchId}`);
   };
 
   const handleGetCandidateList = async () => {

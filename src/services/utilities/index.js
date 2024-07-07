@@ -1,11 +1,19 @@
 /* eslint-disable consistent-return */
+import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { Toast } from 'services/toast';
-import { EXIST_LOCAL_STORAGE, CURRENT_USER } from '../constants';
+import { EXIST_LOCAL_STORAGE, CURRENT_USER, USER_TYPE } from '../constants';
 
 export const isAuthenticated = () => {
   const accessToken = localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN);
   const themeMode = localStorage.getItem(EXIST_LOCAL_STORAGE.THEME_MODE);
+  let currentUserDetails = localStorage.getItem(
+    EXIST_LOCAL_STORAGE.CURRENT_USER
+  );
+  currentUserDetails = JSON.parse(currentUserDetails);
+  if (currentUserDetails?.userType === USER_TYPE.CANDIDATE) {
+    return true;
+  }
   if (accessToken) {
     const jwtDecoded = jwtDecode(accessToken);
     if (new Date() < new Date(jwtDecoded.exp * 1e3)) {
@@ -42,3 +50,12 @@ export const jwtDecodeDetails = () => {
   }
   console.error('Jwd null');
 };
+
+export const axiosInstance = axios.create({
+  // baseURL: process.env.REACT_APP_BASE_URL,
+  headers: {
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': '*'
+  }
+});

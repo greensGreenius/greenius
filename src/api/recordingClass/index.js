@@ -8,7 +8,8 @@ import {
   collection,
   getDocs,
   query,
-  deleteDoc
+  deleteDoc,
+  where
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { isAuthenticated, jwtDecodeDetails } from 'services/utilities';
@@ -44,6 +45,7 @@ export const createRecordingClass = (body) => {
         Toast({ message: 'Recording class Add successfully' });
       }
     } catch (e) {
+      console.log('e-------', e);
       // eslint-disable-next-line no-undef
       const message = error?.message || 'Something went wrong';
       Toast({ message, type: 'error' });
@@ -53,17 +55,22 @@ export const createRecordingClass = (body) => {
   });
 };
 
-export const getAllRecordingClasses = () => {
+export const getRecordingByBatchId = (batchId) => {
   getAuth();
   //   const user = auth.currentUser;
   return new Promise(async (resolve, reject) => {
     try {
       //   if (isAuthenticated()) {
-      // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
-
       const querySnapshot = await getDocs(
-        query(collection(getFirestore(), DB_NAME?.RECORDING_CLASSES))
+        query(
+          collection(getFirestore(), DB_NAME?.RECORDING_CLASSES),
+          where('batchId', '==', batchId)
+        )
       );
+
+      // const querySnapshot = await getDocs(
+      //   query(collection(getFirestore(), DB_NAME?.RECORDING_CLASSES))
+      // );
       const data = [];
       querySnapshot.forEach((courseDoc) => {
         // doc.data() is never undefined for query doc snapshots
@@ -73,6 +80,7 @@ export const getAllRecordingClasses = () => {
       //   } else {
       //   }
     } catch (e) {
+      console.log('e------', e);
       // eslint-disable-next-line no-undef
       const message = error?.message || 'Something went wrong';
       Toast({ message, type: 'error' });

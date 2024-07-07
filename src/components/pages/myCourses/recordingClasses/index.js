@@ -4,6 +4,7 @@ import { recordingClassSchemaModule } from 'services/module';
 import SimpleReactValidator from 'simple-react-validator';
 import { createRecordingClass } from 'api/recordingClass';
 import { useParams } from 'react-router-dom';
+// import moment from 'moment';
 
 export const RecordingClassesFrom = ({ onSucess = () => {} }) => {
   const simpleValidator = useRef(
@@ -76,6 +77,23 @@ export const RecordingClassesFrom = ({ onSucess = () => {} }) => {
             'Class section url',
             recordingClassFormObject.recClassLink,
             'required|url'
+          )}
+        />
+      </div>
+
+      <div className="col-md-12">
+        <NormalInput
+          label="Enter Class Date"
+          name="date"
+          type="date"
+          // min={moment(moment().subtract(7, 'd')).format('YYYY-MM-DD')}
+          // max={moment().format('YYYY-MM-DD')}
+          onChange={handleInputChange}
+          value={recordingClassFormObject.date}
+          errorMessage={simpleValidator.current.message(
+            'Class Date',
+            recordingClassFormObject.date,
+            'required'
           )}
         />
       </div>

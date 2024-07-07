@@ -12,6 +12,18 @@ const routers = [
         exact: true
       },
       {
+        component: 'LoginPage',
+        path: '/tenant',
+        auth: false,
+        exact: true
+      },
+      {
+        component: 'LearnerLoginPage',
+        path: '/learner',
+        auth: false,
+        exact: true
+      },
+      {
         component: 'ForgotPasswordPage',
         path: '/forgot-password',
         auth: false,
@@ -105,6 +117,12 @@ const routers = [
       {
         component: 'BatchPage',
         path: '',
+        auth: true,
+        exact: true
+      },
+      {
+        component: 'MyCourseListPage',
+        path: 'recording/:batchId',
         auth: true,
         exact: true
       },

@@ -1,10 +1,21 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // import { Outlet } from 'react-router-dom';
 import './sideBar.scss';
-import { MENU } from 'services/constants';
+import { MENU, EXIST_LOCAL_STORAGE } from 'services/constants';
 import { NavLink } from 'react-router-dom';
+import { getStorage } from 'services/helperFunctions';
+// import { EXIST_LOCAL_STORAGE } from 'services/constants';
 
 export const SideBar = () => {
+  const handleGetLoginUserDetail = () => {
+    let userData = getStorage(EXIST_LOCAL_STORAGE.CURRENT_USER);
+    if (userData) {
+      userData = JSON.parse(userData);
+      return userData;
+    }
+    return null;
+  };
+
   return (
     // <!-- Sidebar-->
     <div className="border-end bg-white" id="sidebar-wrapper">
@@ -51,18 +62,21 @@ export const SideBar = () => {
       </div> */}
 
       <ul className="nav nav-pills flex-column side-menu-list mb-auto">
-        {MENU.map(({ title, icon, link }) => (
-          <li className="nav-item">
-            <NavLink
-              to={link}
-              activeClassName="active"
-              className="nav-link"
-              aria-current="page"
-            >
-              <span className="material-icons">{icon}</span> {title}
-            </NavLink>
-          </li>
-        ))}
+        {MENU.map(
+          ({ title, icon, link, userType = [] }) =>
+            userType.includes(handleGetLoginUserDetail()?.userType) && (
+              <li className="nav-item">
+                <NavLink
+                  to={link}
+                  activeClassName="active"
+                  className="nav-link"
+                  aria-current="page"
+                >
+                  <span className="material-icons">{icon}</span> {title}
+                </NavLink>
+              </li>
+            )
+        )}
       </ul>
     </div>
   );
