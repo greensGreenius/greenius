@@ -36,12 +36,26 @@ export const MyCourseListPage = () => {
   const handleOpenLeadModal = () => {
     setIsOpenForm(!isOpenForm);
   };
+
+  const handleGetLoginUserDetail = () => {
+    let userData = getStorage(EXIST_LOCAL_STORAGE.CURRENT_USER);
+    if (userData) {
+      userData = JSON.parse(userData);
+      return userData;
+    }
+    return null;
+  };
+
   return (
     <>
       <Normalbreadcrumb
         onBtnClick={handleOpenLeadModal}
         title="My Course"
-        btnLabel="Add Course"
+        btnLabel={
+          ![USER_TYPE.CANDIDATE].includes(
+            handleGetLoginUserDetail()?.userType
+          ) && 'Add Course'
+        }
         isCount={false}
       />
       <MyCourseCard recordingClass={recordingClass} />

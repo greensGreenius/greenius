@@ -131,6 +131,10 @@ export const BRANCH_LIST = [
   {
     label: 'Avadi',
     value: 3
+  },
+  {
+    label: 'Kolathur',
+    value: 4
   }
 ];
 
