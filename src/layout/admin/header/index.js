@@ -25,6 +25,19 @@ export const Header = () => {
     });
   };
 
+  const handleOpenMenu = () => {
+    try {
+      const sideBar = document.getElementById('sidebar-wrapper');
+      if (sideBar.style.marginLeft === '0px') {
+        sideBar.style.marginLeft = '-17rem';
+      } else {
+        sideBar.style.marginLeft = 0;
+      }
+    } catch (e) {
+      console.log('e-------', e);
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg bg-primary shadow app-header">
       <div className="container-fluid">
@@ -38,12 +51,8 @@ export const Header = () => {
         </Link>
         <button
           className="navbar-toggler"
+          onClick={handleOpenMenu}
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon" />
         </button>
