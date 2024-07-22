@@ -143,6 +143,10 @@ export const getCandidateById = (id = null) => {
         );
         if (docSnap.exists()) {
           const data = docSnap.data();
+          // data.batchId = data.batchIds
+          //   ?.filter(({ status }) => status === STATUS.ACTIVE)
+          //   .map(({ batchId }) => batchId);
+          // console.log('candidate-------', candidate);
           resolve(data);
         } else {
           Toast({ message: 'No such document!', type: 'error' });
@@ -249,7 +253,7 @@ export const getBatchIdByCandate = (batchId) => {
       const querySnapshot = await getDocs(
         query(
           collection(getFirestore(), DB_NAME?.CANDIDATE),
-          where('batchId', '==', batchId)
+          where('batchId', 'array-contains', batchId)
         )
       );
       console.log(

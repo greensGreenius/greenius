@@ -46,6 +46,7 @@ export const CandidateFormPage = () => {
         label: name,
         trainerId
       }));
+      console.log('e----setBatchList----->', list);
       setBatchList(list);
     } catch (e) {
       console.log('e--------->', e);

@@ -113,6 +113,12 @@ export const getLeadType = (type) => {
 export const getIdByLabel = (list = [], id) => {
   try {
     if (list?.length > 0) {
+      if (Array.isArray(id)) {
+        return id.map(
+          (iss) =>
+            list?.find(({ value }) => value === iss)?.label ?? 'No Batch Found'
+        );
+      }
       const res = list?.find(({ value }) => value === id);
       return res.label ? res.label : 'No User';
     }

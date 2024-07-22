@@ -64,26 +64,30 @@ export function NormalSelect(props) {
     }
   };
 
-  React.useEffect(() => {
+  const handleSetLaodValue = () => {
     if (multiple) {
-      const val = typeof value === 'string' ? value.split(',') : value;
-      setMultySelectValue(val);
+      if (Array.isArray(value)) {
+        const val = value?.map((val) => {
+          return option.find(({ value }) => value === val);
+        });
+
+        setMultySelectValue(val);
+      }
     } else {
       console.log('-----', value);
       setSelectValue(String(value));
     }
-  }, []);
+  };
 
   React.useEffect(() => {
-    if (multiple) {
-      const val = value.map((val) => {
-        return option.find(({ value }) => value === val);
-      });
-      setMultySelectValue(val);
-    } else {
-      console.log('-----', value);
-      setSelectValue(String(value));
-    }
+    handleSetLaodValue();
+  }, []);
+  React.useEffect(() => {
+    handleSetLaodValue();
+  }, [option]);
+
+  React.useEffect(() => {
+    handleSetLaodValue();
   }, [value]);
 
   // const handleInputChange = (event) => {

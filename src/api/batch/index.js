@@ -108,17 +108,21 @@ export const getAllBatch = () => {
       );
       const data = [];
       querySnapshot.forEach(async (courseDoc) => {
+        console.log('courseDoc.id--------', courseDoc.id);
         // doc.data() is never undefined for query doc snapshots
         const candidateQuerySnapshot = await getDocs(
           query(
             collection(getFirestore(), DB_NAME?.CANDIDATE),
-            where('batchId', '==', courseDoc.id)
+            where('batchId', 'array-contains', courseDoc.id)
           )
         );
         // candidateQuerySnapshot.forEach(async (batch) => {
         //   console.log({ ...batch.data() });
         // });
-        console.log(candidateQuerySnapshot.size);
+        console.log(
+          candidateQuerySnapshot.size,
+          '----candidateQuerySnapshot.size'
+        );
         const trainer = courseDoc
           .data()
           .trainerIds.find(({ status }) => status === STATUS.ACTIVE);

@@ -21,6 +21,7 @@ import {
 import SimpleReactValidator from 'simple-react-validator';
 import { candidateSchemaModule } from 'services/module';
 import { userGetByRole } from 'services/helperFunctions';
+// eslint-disable-next-line no-unused-vars
 import { getCandidateById, updateLead, createLead } from 'api/lead';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Toast } from 'services/toast';
@@ -60,9 +61,9 @@ export const CandidateForm = ({
       }
       setIsLoadingFrom(true);
       const candRes = await getCandidateById(candidateId);
+
       setIsLoadingFrom(false);
       setCandidateFormObject({ ...candidateSchemaModule, ...candRes });
-      console.log('userResList--------->', candRes);
     } catch (e) {
       setIsLoadingFrom(false);
       console.log('e--------->', e);
@@ -96,20 +97,24 @@ export const CandidateForm = ({
       if (!Array.isArray(candidateFormObject?.batchIds)) {
         candidateFormObject.batchIds = [];
       }
+      console.log('body.batchIds------------', candidateFormObject.batchId);
       const batchIds = candidateFormObject.batchIds?.map((trainer) => ({
         ...trainer,
-        status: STATUS.DE_ACTIVE,
+        status: candidateFormObject.batchId.includes(trainer.batchId)
+          ? STATUS.ACTIVE
+          : STATUS.DE_ACTIVE,
         eDate: new Date()
       }));
       // console.log('body.batchIds-----', candidateFormObject);
-      body.batchIds = [
-        ...batchIds,
-        {
-          batchId: candidateFormObject.batchId,
-          sDate: new Date(),
-          status: STATUS.ACTIVE
-        }
-      ];
+
+      const batchActiveIds = candidateFormObject.batchId.map((batchId) => ({
+        batchId,
+        sDate: new Date(),
+        status: STATUS.ACTIVE
+      }));
+
+      body.batchIds = [...batchIds, ...batchActiveIds];
+      console.log('body.batchIds------------', body.batchIds);
       // delete body.batchId;
 
       const formValid = simpleValidator.current.allValid();
@@ -408,6 +413,7 @@ export const CandidateForm = ({
                     </div>
                     <div className="col-md-3">
                       <NormalSelect
+                        multiple
                         label="Batch Id"
                         name="batchId"
                         option={batchList}

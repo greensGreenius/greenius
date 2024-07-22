@@ -7,6 +7,7 @@ import { CANDIDATE_CLASS_STATUS_LIST } from 'services/constants';
 import { getAllCourse } from 'api/course';
 import { getAllUser } from 'api/user';
 import { getAllBatch } from 'api/batch';
+// import { updateByCandidateLead } from 'api/lead';
 import { multySearchObjects } from 'services/helperFunctions';
 
 export const CandidatePage = () => {
@@ -35,6 +36,10 @@ export const CandidatePage = () => {
       setCandidateList([]);
       setLoading(true);
       const leadResList = await getAllCandidate(classStatus);
+
+      // console.log('candidateBatch----------', candidateBatch);
+      // candidateBatch
+
       setCandidateList(leadResList);
       setLoading(false);
     } catch (e) {
