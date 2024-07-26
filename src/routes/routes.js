@@ -124,6 +124,20 @@ const routers = [
   },
   {
     component: 'Adminlayout',
+    path: '/quiz',
+    auth: true,
+    exact: false,
+    childrens: [
+      {
+        component: 'QuizPage',
+        path: '',
+        auth: true,
+        exact: true
+      }
+    ]
+  },
+  {
+    component: 'Adminlayout',
     path: '/batch',
     auth: true,
     exact: false,

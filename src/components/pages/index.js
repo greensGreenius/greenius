@@ -9,5 +9,10 @@ export {
   MyCourseContent,
   RecordingClassesFrom
 } from './myCourses';
-export { EnrollmentCount, LeadStatusDiscover } from './home';
+export {
+  EnrollmentCount,
+  LeadStatusDiscover,
+  ProfitAndSaleCountCount
+} from './home';
 export { CandidateProfileForm } from './profile';
+export { QuizeComplite, QuizeTestCard, GetStartQuize } from './quiztest';

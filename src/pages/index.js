@@ -9,3 +9,4 @@ export { CandidatePage, CandidateFormPage } from './candidate';
 export { MyCourseListPage, MyCourseDetailPage } from './myCourses';
 export { WhoIam } from './who-i-am';
 export { ProfilePage } from './profile';
+export { QuizPage } from './quiz';

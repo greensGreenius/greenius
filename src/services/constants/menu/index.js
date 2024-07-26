@@ -54,6 +54,14 @@ export const MENU = [
     userType: [USER_TYPE.CANDIDATE]
   },
   {
+    title: 'Quiz',
+    icon: 'library_books',
+    link: '/quiz',
+    isShow: true,
+    // userType: [USER_TYPE.CANDIDATE],
+    userType: [USER_TYPE.SUPPER_ADMIN, USER_TYPE.TRAINER]
+  },
+  {
     title: 'My Profile',
     icon: 'person',
     link: '/profile',
