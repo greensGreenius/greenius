@@ -76,6 +76,7 @@ export const getRecordingByBatchId = (batchId) => {
         // doc.data() is never undefined for query doc snapshots
         data.push({ ...courseDoc.data(), id: courseDoc.id });
       });
+      console.log(data, '---', batchId);
       resolve(data);
       //   } else {
       //   }

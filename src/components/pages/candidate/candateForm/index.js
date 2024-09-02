@@ -63,6 +63,10 @@ export const CandidateForm = ({
       const candRes = await getCandidateById(candidateId);
 
       setIsLoadingFrom(false);
+      console.log('candidate----------', {
+        ...candidateSchemaModule,
+        ...candRes
+      });
       setCandidateFormObject({ ...candidateSchemaModule, ...candRes });
     } catch (e) {
       setIsLoadingFrom(false);

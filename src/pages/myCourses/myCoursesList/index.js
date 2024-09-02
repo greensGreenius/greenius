@@ -16,10 +16,16 @@ export const MyCourseListPage = () => {
       let curentUser = getStorage(EXIST_LOCAL_STORAGE.CURRENT_USER);
       curentUser = JSON.parse(curentUser);
       if (curentUser && curentUser.userType === USER_TYPE.CANDIDATE) {
-        curentUser.batchIds.map(async (data) => {
-          const resBody = await getRecordingByBatchId(data?.batchId);
-          setRecordingClass([...recordingClass, ...resBody]);
-        });
+        const allResBodies = await Promise.all(
+          curentUser.batchIds.map(async (data) => {
+            const resBody = await getRecordingByBatchId(data?.batchId);
+            // setRecordingClass([...recordingClass, ...resBody]);
+            return resBody;
+          })
+        );
+        const combinedResBodies = allResBodies.flat();
+
+        setRecordingClass(combinedResBodies);
       } else if (batchId) {
         const resBody = await getRecordingByBatchId(batchId);
         setRecordingClass(resBody);

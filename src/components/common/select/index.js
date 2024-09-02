@@ -74,7 +74,7 @@ export function NormalSelect(props) {
         setMultySelectValue(val);
       }
     } else {
-      console.log('-----', value);
+      console.log('--handleSetLaodValue---', value, name);
       setSelectValue(String(value));
     }
   };
@@ -151,7 +151,7 @@ export function NormalSelect(props) {
           value={
             multiple
               ? multySelectValue
-              : option?.find(({ value = '' }) => value === selectValue)
+              : option?.find(({ value = '' }) => String(value) === selectValue)
           }
           isMulti={multiple}
           onChange={(e) => handleChange(e, name)}
