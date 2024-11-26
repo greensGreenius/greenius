@@ -305,3 +305,16 @@ export const letterAvatar = (name = '', size = 60, useColour = true) => {
 
   return dataURI;
 };
+
+export const getLoginUserDetail = () => {
+  return new Promise((resolve) => {
+    const myInterval = setInterval(() => {
+      const userData = getStorage(EXIST_LOCAL_STORAGE.CURRENT_USER);
+      console.log(userData, '-userData--');
+      if (userData) {
+        clearInterval(myInterval);
+        resolve(JSON.parse(userData)); // Resolving the promise once data is found
+      }
+    }, 100); // You can adjust the interval time as needed
+  });
+};

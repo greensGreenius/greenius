@@ -17,7 +17,8 @@ export const BatchPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [editBatchObject, setEditBatchObject] = useState({});
   const [filterObject, setFilterObject] = useState({
-    trainerId: getCurentUserTrainerId()
+    trainerId: getCurentUserTrainerId(),
+    status: STATUS.ACTIVE
   });
 
   const handleOpenLeadModal = () => {

@@ -1,71 +1,33 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-// import { Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import './sideBar.scss';
-import { MENU, EXIST_LOCAL_STORAGE } from 'services/constants';
+import { MENU } from 'services/constants';
 import { NavLink } from 'react-router-dom';
-import { getStorage } from 'services/helperFunctions';
-// import { EXIST_LOCAL_STORAGE } from 'services/constants';
+import { getLoginUserDetail } from 'services/helperFunctions';
 
 export const SideBar = () => {
-  const handleGetLoginUserDetail = () => {
-    let userData = getStorage(EXIST_LOCAL_STORAGE.CURRENT_USER);
-    if (userData) {
-      userData = JSON.parse(userData);
-      return userData;
-    }
-    return null;
-  };
+  const [userDetails, setUserDetails] = useState(null); // To store the user details
+
+  useEffect(() => {
+    // Fetch the login user details when the component mounts
+    const fetchUserDetails = async () => {
+      try {
+        const details = await getLoginUserDetail();
+        setUserDetails(details);
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+
+    fetchUserDetails();
+  }, []); // Empty dependency array to run only once on component mount
 
   return (
-    // <!-- Sidebar-->
     <div className="border-end bg-white" id="sidebar-wrapper">
-      {/* <div className="sidebar-heading border-bottom bg-white">  
-        Start Bootstrap
-      </div> */}
-      {/* <div className="list-group list-group-flush">
-        <a
-          className="list-group-item list-group-item-action list-group-item-white p-3"
-          href="#!"
-        >
-          Dashboard
-        </a>
-        <a
-          className="list-group-item list-group-item-action list-group-item-white p-3"
-          href="#!"
-        >
-          Shortcuts
-        </a>
-        <a
-          className="list-group-item list-group-item-action list-group-item-white p-3"
-          href="#!"
-        >
-          Overview
-        </a>
-        <a
-          className="list-group-item list-group-item-action list-group-item-white p-3"
-          href="#!"
-        >
-          Events
-        </a>
-        <a
-          className="list-group-item list-group-item-action list-group-item-white p-3"
-          href="#!"
-        >
-          Profile
-        </a>
-        <a
-          className="list-group-item list-group-item-action list-group-item-white p-3"
-          href="#!"
-        >
-          Status
-        </a>
-      </div> */}
-
-      <ul className="nav nav-pills flex-column side-menu-list mb-auto">
-        {MENU.map(
-          ({ title, icon, link, userType = [] }) =>
-            userType.includes(handleGetLoginUserDetail()?.userType) && (
-              <li className="nav-item">
+      {userDetails ? (
+        <ul className="nav nav-pills flex-column side-menu-list mb-auto">
+          {MENU.map(({ title, icon, link, userType = [] }) =>
+            userType.includes(userDetails.userType) ? (
+              <li className="nav-item" key={title}>
                 <NavLink
                   to={link}
                   activeClassName="active"
@@ -75,9 +37,12 @@ export const SideBar = () => {
                   <span className="material-icons">{icon}</span> {title}
                 </NavLink>
               </li>
-            )
-        )}
-      </ul>
+            ) : null
+          )}
+        </ul>
+      ) : (
+        <h4>Loading...</h4>
+      )}
     </div>
   );
 };

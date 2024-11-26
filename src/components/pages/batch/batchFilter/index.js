@@ -1,5 +1,5 @@
 import { NormalSearch, NormalSelect, NormalButton } from 'components/common';
-import { WEEK_LIST, USER_TYPE } from 'services/constants';
+import { WEEK_LIST, USER_TYPE, BATCH_STATUS_LIST } from 'services/constants';
 import {
   userGetByRole,
   getCurentUserTrainerId
@@ -10,6 +10,7 @@ export const BatchFilter = ({ onChange = () => {}, userList = [] }) => {
   const [filterObject, setFilterObject] = useState({
     name: '',
     classDays: '',
+    status: 1,
     trainerId: getCurentUserTrainerId()
   });
 
@@ -39,7 +40,7 @@ export const BatchFilter = ({ onChange = () => {}, userList = [] }) => {
 
   return (
     <div className="row">
-      <div className="col-md-4">
+      <div className="col-md-3">
         <NormalSearch
           placeholder="Batch"
           name="name"
@@ -47,7 +48,17 @@ export const BatchFilter = ({ onChange = () => {}, userList = [] }) => {
           onChange={handleInputChange}
         />
       </div>
-      <div className="col-md-3">
+      <div className="col-md-2">
+        <NormalSelect
+          option={BATCH_STATUS_LIST}
+          name="status"
+          value={filterObject.status}
+          onChange={handleInputChange}
+          isLabel={false}
+          label="Status"
+        />
+      </div>
+      <div className="col-md-2">
         <NormalSelect
           option={WEEK_LIST}
           name="classDays"
